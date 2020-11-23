@@ -8,7 +8,7 @@ on:
 
 jobs:
   kubernetes_test
-    name: Run various kubernetes utilities to test stuff
+    name: kube-tools
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
