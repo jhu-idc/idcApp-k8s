@@ -6,3 +6,6 @@ bases:
 
 resources:
   - namespace.yaml
+
+
+namespac: test
