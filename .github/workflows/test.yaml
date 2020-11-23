@@ -19,6 +19,6 @@ jobs:
         with:
           kustomize: 3.8.7
           command: |
-            kustomize build overlays/aws/test
+            kustomize build overlays/aws/test | kubeval --strict
   
       
