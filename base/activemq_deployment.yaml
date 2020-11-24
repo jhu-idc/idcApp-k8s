@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: activemq
+  labels:
+    app: activemq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: activemq
+  template:
+    metadata:
+      labels:
+        app: activemq
+    spec:
+      containers:
+        - image: islandora/activemq:latest
+          name: activemq
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 500Mi
+              cpu: 200m
+            limits:
+              memory: 1000Mi
+      initContainers:
+        - name: initconfig
+          image: ghcr.io/jhu-idc/activemq_init:latest
+          imagePullPolicy: Always
+
+              #     volumeMounts:
+      #       - name: activemq-creds
+      #         readOnly: false
+      #         mountPath: /opt/activemq/conf/jetty-realm.properties
+      #         subPath: jetty-realm.properties
+      # volumes:
+      #   - name: activemq-creds
+      #     secret:
+      #       secretName: activemq-creds
+      # restartPolicy: Always
