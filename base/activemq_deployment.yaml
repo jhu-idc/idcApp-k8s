@@ -24,18 +24,22 @@ spec:
               cpu: 200m
             limits:
               memory: 1000Mi
-      initContainers:
-        - name: initconfig
-          image: ghcr.io/jhu-idc/activemq_init:latest
-          imagePullPolicy: Always
+          env:
+            - name: ACTIVEMQ_USER
+              value: client
+            - name: ACTIVEMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: activemq
+                  key: clientPassword
+            - name: ACTIVEMQ_WEB_ADMIN_NAME
+              value: admin
+            - name: ACTIVEMQ_WEB_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: activemq
+                  key: adminPassword
+            - name: ACTIVEMQ_WEB_ADMIN_ROLES
+              value: admin
 
-              #     volumeMounts:
-      #       - name: activemq-creds
-      #         readOnly: false
-      #         mountPath: /opt/activemq/conf/jetty-realm.properties
-      #         subPath: jetty-realm.properties
-      # volumes:
-      #   - name: activemq-creds
-      #     secret:
-      #       secretName: activemq-creds
-      # restartPolicy: Always
+          
