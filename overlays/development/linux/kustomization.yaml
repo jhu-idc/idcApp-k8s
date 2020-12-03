@@ -7,6 +7,8 @@ bases:
 
 resources:
   - namespace.yaml
+  - activemq-volume.yaml
+  - cantaloupe_volume.yaml
   
 namespace: linuxtest
 

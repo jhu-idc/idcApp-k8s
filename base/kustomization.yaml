@@ -4,3 +4,6 @@ kind: Kustomization
 resources:
   - activemq_deployment.yaml
   - activemq_service.yaml
+  - cantaloupe_deployment.yaml
+  - cantaloupe_service.yaml
+  

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cantaloupe
+  labels:
+    app: cantaloupe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cantaloupe
+  template:
+    metadata:
+      labels:
+        app: cantaloupe
+    spec:
+      containers:
+        - image: islandora/cantaloupe:latest
+          name: cantaloupe
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /data
+              name: cantaloupe-data
+          ports:
+            - containerPort: 8080
+      volumes:
+        - name: cantaloupe-data
+          persistentVolumeClaim:
+            claimName: cantaloupe-data
