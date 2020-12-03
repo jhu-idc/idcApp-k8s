@@ -41,5 +41,18 @@ spec:
                   key: adminPassword
             - name: ACTIVEMQ_WEB_ADMIN_ROLES
               value: admin
-
+          volumeMounts:
+            - mountPath: /opt/activemq/data
+              name: activemq-data
+          ports:
+            - containerPort: 1883
+            - containerPort: 5672
+            - containerPort: 8161
+            - containerPort: 61613
+            - containerPort: 61614
+            - containerPort: 61616
+      volumes:
+        - name: activemq-data
+          persistentVolumeClaim:
+            claimName: activemq-data
           
