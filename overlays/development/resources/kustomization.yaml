@@ -5,3 +5,5 @@ resources:
   - ./activemq_pvc.yaml
   - ./activemq_secrets.yaml
   - ./cantaloupe_pvc.yaml
+  - ./mariadb_secrets.yaml
+  - ./mariadb_pvc.yaml

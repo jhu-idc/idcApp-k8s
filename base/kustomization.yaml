@@ -6,4 +6,6 @@ resources:
   - activemq_service.yaml
   - cantaloupe_deployment.yaml
   - cantaloupe_service.yaml
+  - mariadb_service.yaml
+  - mariadb_deployment.yaml
   
