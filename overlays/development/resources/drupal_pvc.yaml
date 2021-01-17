@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-data
+spec:
+  storageClassName: ""
+  volumeName: drupal-data
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-codebase
+spec:
+  storageClassName: ""
+  volumeName: drupal-codebase
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi

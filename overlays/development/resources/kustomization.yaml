@@ -7,3 +7,9 @@ resources:
   - ./cantaloupe_pvc.yaml
   - ./mariadb_secrets.yaml
   - ./mariadb_pvc.yaml
+  - ./drupal_secrets.yaml
+  - etcd_pvc.yaml
+#  - saml-secrets.yaml
+  - drupal_pvc.yaml
+  - saml-secrets2.yaml
+#  - saml-secrets3.yaml
