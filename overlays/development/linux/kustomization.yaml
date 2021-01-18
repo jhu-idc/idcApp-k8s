@@ -9,7 +9,12 @@ resources:
   - namespace.yaml
   - activemq-volume.yaml
   - cantaloupe_volume.yaml
+  - mariadb_pv.yaml
+  - etcd-pv.yaml
+  - drupal_pv.yaml
+
   
 namespace: linuxtest
+
 
   

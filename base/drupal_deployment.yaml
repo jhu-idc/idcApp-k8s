@@ -1,0 +1,180 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+  labels:
+    app: drupal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drupal
+  template:
+    metadata:
+      labels:
+        app: drupal
+    spec:
+      containers:
+        - name: drupal
+          image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-122-gf9e22c4
+          imagePullPolicy: Always
+          env:
+            - name: DRUPAL_DEFAULT_GEMINI_HOST
+              value: gemini
+            - name: DRUPAL_DEFAULT_BROKER_HOST
+              value: activemq
+            - name: DRUPAL_INSTANCE
+              value: static
+
+            - name: DRUPAL_DEFAULT_CONFIGDIR
+              value: /var/www/drupal/config/sync
+            - name: DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG
+              value: "true"
+            - name: DRUPAL_DEFAULT_PROFILE
+              value: minimal
+            - name: DRUPAL_DEFAULT_DB_DRIVER
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.driver
+            - name: DRUPAL_DEFAULT_DB_HOST
+              value: mariadb
+            - name: DRUPAL_DEFAULT_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.port
+            - name: DRUPAL_DEFAULT_SALT
+              value: 9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg
+            - name: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
+              value: password
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+            - name: DRUPAL_DB_ROOT_PASSWORD
+              value: password
+            - name: DRUPAL_DB_ROOT_USER
+              value: root
+            - name: DRUPAL_DEFAULT_DB_ROOT_USER
+              value: root
+            - name: DRUPAL_DEFAULT_SITE_URL
+              value: "http://islandora-idc.traefik.me"
+            - name: DRUPAL_DEFAULT_ACCOUNT_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.email
+            - name: DRUPAL_DEFAULT_ACCOUNT_NAME
+              value: drupal_default
+            - name: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
+              value: password
+            - name: DRUPAL_DEFAULT_DB_NAME
+              value: drupal_default
+            - name: DRUPAL_DEFAULT_DB_PASSWORD
+              value: password
+            - name: DRUPAL_DEFAULT_DB_USER
+              value: root
+            - name: DRUPAL_DEFAULT_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.email
+            - name: DRUPAL_DEFAULT_LOCALE
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.locale
+            - name: DRUPAL_DEFAULT_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.name
+            - name: DRUPAL_DEFAULT_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.profile
+            - name: DRUPAL_DEFAULT_SUBDIR
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.subdir
+            - name: DRUPAL_DEFAULT_INSTALL
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.install
+            - name: BROKER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: activemq.host
+            - name: BROKER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: activemq.port
+            - name: CANTALOUPE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: cantaloupe.url
+            # - name: FCREPO_HOST
+            # - name: FCREPO_PORT
+            - name: GEMINI_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: gemini.host
+            - name: GEMINI_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: gemini.port
+            - name: MATOMO_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: matomo.url
+            - name: SOLR_CORE
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: solr.core
+            - name: SOLR_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: solr.host
+            - name: SOLR_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: solr.port
+            - name: TRIPLESTORE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: triplestore.host
+            - name: TRIPLESTORE_NAMESPACE
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: triplestore.namespace
+            - name: TRIPLESTORE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: triplestore.port
+          volumeMounts:
+            - name: drupal-data
+              mountPath: /var/www/drupal/web/sites/default/files
+            - name: saml-secrets
+              mountPath: /run/secrets/saml_secrets
+            
+      volumes:
+        - name: drupal-data
+          persistentVolumeClaim:
+            claimName: drupal-data
+        - name: saml-secrets
+          secret:
+            secretName: saml2

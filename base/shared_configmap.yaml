@@ -1,0 +1,43 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shared
+data:
+  db.host: mariadb
+  db.port: !!integer 3306
+  db.driver: mysql
+  db.rootUser: root
+
+  drupal.default.install: "false"
+  drupal.default.email: "moo@moo.net"
+
+  drupal.default.account_name: admin
+  drupal.default.db_name: drupal_default
+  drupal.default.db_user: admin
+  drupal.default.locale: en
+  drupal.default.name: default
+  drupal.default.profile: standard
+  drupal.default.subdir: default
+  drupal.default.site_url: https://bob.library.jhu.edu
+#  drupal.default.configdir: 
+#  drupal.default.account_password: In secrets
+#  drupal.default.db.password: In secrets
+
+  activemq.host: activemq.service
+  activemq.port: !!integer 61613
+
+  cantaloupe.url: http://cantaloupe.serivce/iiif/2
+
+  gemini.host: gemini.service
+  gemini.port: !!integer 8000
+
+  matomo.url: http://matomo.service/
+
+  solr.host: solr.service
+  solr.port: !!integer 8983
+  solr.core: ISLANDORA
+
+  triplestore.host: blazegraph.service
+  triplestore.port: !!integer 80
+  triplestore.namespace: islandora
