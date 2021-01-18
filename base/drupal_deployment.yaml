@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: drupal
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:9e4e84b
+          image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-122-gf9e22c4
           imagePullPolicy: Always
           env:
             - name: DRUPAL_DEFAULT_GEMINI_HOST
