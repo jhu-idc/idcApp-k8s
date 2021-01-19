@@ -30,7 +30,6 @@ spec:
       # OpenWire
       port: 61616
       name: openwire
-  type: NodePort
       
       
     
