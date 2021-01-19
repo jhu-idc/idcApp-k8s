@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: solr
+  name: solr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: solr
+  template:
+    metadata:
+      labels:
+        app: solr
+    spec:
+      containers:
+      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/solr:upstream-20200824-f8d1e8e-14-g09641e3
+        name: solr
+###### TODO ####
+# need a volume for solr data
+################
