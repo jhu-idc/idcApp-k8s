@@ -17,3 +17,4 @@ resources:
   - houdini_deployment.yaml
   - hypercube_deployment.yaml
   - solr_deployment.yaml
+  - solr_service.yaml
