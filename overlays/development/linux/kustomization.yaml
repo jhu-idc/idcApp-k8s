@@ -14,7 +14,7 @@ resources:
   - drupal_pv.yaml
 
   
-namespace: linuxtest
+namespace: linuxdevelopment
 
 
   
