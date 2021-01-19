@@ -16,4 +16,5 @@ spec:
     spec:
       containers:
         - name: fits
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/fits:upstream-20200824-f8d1e8e-14-g09641e3k1e3
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/fits:upstream-20200824-f8d1e8e-19-g35fa7d2
+
