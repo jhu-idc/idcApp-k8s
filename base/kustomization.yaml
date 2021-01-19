@@ -10,6 +10,7 @@ resources:
   - mariadb_service.yaml
   - mariadb_deployment.yaml
   - drupal_deployment.yaml
+  - drupal_service.yaml
 #  - drupal_configmap.yaml
   - shared_configmap.yaml
   - fits_deployment.yaml
