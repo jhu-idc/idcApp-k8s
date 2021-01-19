@@ -15,8 +15,14 @@ spec:
         app: solr
     spec:
       containers:
-      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/solr:upstream-20200824-f8d1e8e-14-g09641e3
+#      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/solr:upstream-20200824-f8d1e8e-14-g09641e3
+      - image: ghcr.io/jhu-library-operations/solr:upstream-20200824-f8d1e8e-19-g5c591a1.dirty
         name: solr
-###### TODO ####
-# need a volume for solr data
-################
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /opt/solr/server/solr
+            name: solr-data
+      volumes:
+        - name: solr-data
+          persistentVolumeClaim:
+            claimName: solr-data
