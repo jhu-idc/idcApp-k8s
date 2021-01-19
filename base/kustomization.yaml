@@ -14,3 +14,4 @@ resources:
   - shared_configmap.yaml
   - fits_deployment.yaml
   - homarus_deployment.yaml
+  - houdini_deployment.yaml
