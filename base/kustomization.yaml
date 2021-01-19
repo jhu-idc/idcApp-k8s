@@ -16,3 +16,4 @@ resources:
   - homarus_deployment.yaml
   - houdini_deployment.yaml
   - hypercube_deployment.yaml
+  - solr_deployment.yaml
