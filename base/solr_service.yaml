@@ -8,6 +8,6 @@ spec:
   ports:
   - port: 8983
     protocol: TCP
-    targetPort: 8983
+    name: solr
   selector:
     app: solr

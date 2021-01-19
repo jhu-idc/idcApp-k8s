@@ -12,6 +12,7 @@ resources:
   - mariadb_pv.yaml
   - etcd-pv.yaml
   - drupal_pv.yaml
+  - solr_pv.yaml
 
   
 namespace: linuxdevelopment

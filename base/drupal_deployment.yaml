@@ -25,7 +25,6 @@ spec:
               value: activemq
             - name: DRUPAL_INSTANCE
               value: static
-
             - name: DRUPAL_DEFAULT_CONFIGDIR
               value: /var/www/drupal/config/sync
             - name: DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG
@@ -73,6 +72,8 @@ spec:
               value: password
             - name: DRUPAL_DEFAULT_DB_USER
               value: root
+            - name: DEFAULT_SOLR_HOST
+              value: solr
             - name: DRUPAL_DEFAULT_EMAIL
               valueFrom:
                 configMapKeyRef:
