@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: houdini
+  name: houdini
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: houdini
+  template:
+    metadata:
+      labels:
+        app: houdini
+    spec:
+      containers:
+        - name: houdini
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/houdini:upstream-20200824-f8d1e8e-19-g35fa7d2
+          env:
+            - name: HOUDINI_JWT_PUBLIC_KEY
+              value: |
+               -----BEGIN PUBLIC KEY-----
+               MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+               ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+               ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+               sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+               Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+               a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+               rwIDAQAB
+               -----END PUBLIC KEY-----
+            - name: HOUDINI_JWT_ADMIN_TOKEN
+              value: islandora
+  
