@@ -11,6 +11,6 @@ resources:
   - etcd_pvc.yaml
 #  - saml-secrets.yaml
   - drupal_pvc.yaml
-#  - saml-secrets2.yaml
+  - saml-secrets2.yaml
 #  - saml-secrets3.yaml
   - solr-pvc.yaml

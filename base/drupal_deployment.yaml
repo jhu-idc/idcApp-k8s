@@ -14,9 +14,19 @@ spec:
       labels:
         app: drupal
     spec:
+      initContainers:
+        - image: ghcr.io/jhu-library-operations/init/wait-for-db:36c5712
+          name: wait-for-db
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: mariadb-files
+              mountPath: /var/lib/mysql-files
+          env:
+            - name: MYSQL_HOST
+              value: mariadb-service
       containers:
         - name: drupal
-          image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-122-gf9e22c4
+          image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
           imagePullPolicy: Always
           env:
             - name: DRUPAL_DEFAULT_GEMINI_HOST
@@ -37,7 +47,7 @@ spec:
                   name: shared
                   key: db.driver
             - name: DRUPAL_DEFAULT_DB_HOST
-              value: mariadb
+              value: mariadb-service
             - name: DRUPAL_DEFAULT_DB_PORT
               valueFrom:
                 configMapKeyRef:
@@ -104,11 +114,6 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: drupal.default.install
-            - name: BROKER_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: activemq.host
             - name: BROKER_PORT
               valueFrom:
                 configMapKeyRef:
@@ -141,11 +146,6 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: solr.core
-            - name: SOLR_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: solr.host
             - name: SOLR_PORT
               valueFrom:
                 configMapKeyRef:
@@ -179,3 +179,6 @@ spec:
         - name: saml-secrets
           secret:
             secretName: saml2
+        - name: mariadb-files
+          persistentVolumeClaim:
+            claimName: mariadb-files
