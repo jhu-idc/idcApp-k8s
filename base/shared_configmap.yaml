@@ -24,7 +24,7 @@ data:
 #  drupal.default.account_password: In secrets
 #  drupal.default.db.password: In secrets
 
-  activemq.host: activemq.service
+  activemq.host: activemq-service
   activemq.port: !!integer 61613
 
   cantaloupe.url: http://cantaloupe.serivce/iiif/2
@@ -34,7 +34,7 @@ data:
 
   matomo.url: http://matomo.service/
 
-  solr.host: solr.service
+  solr.host: solr-service
   solr.port: !!integer 8983
   solr.core: ISLANDORA
 
