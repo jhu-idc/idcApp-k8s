@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: shared
 data:
-  db.host: mariadb
+  db.host: mariadb-service
   db.port: !!integer 3306
   db.driver: mysql
   db.rootUser: root
@@ -29,7 +29,7 @@ data:
 
   cantaloupe.url: http://cantaloupe.serivce/iiif/2
 
-  gemini.host: gemini.service
+  gemini.host: gemini-service
   gemini.port: !!integer 8000
 
   matomo.url: http://matomo.service/
@@ -38,6 +38,6 @@ data:
   solr.port: !!integer 8983
   solr.core: ISLANDORA
 
-  triplestore.host: blazegraph.service
+  triplestore.host: blazegraph-service
   triplestore.port: !!integer 80
   triplestore.namespace: islandora
