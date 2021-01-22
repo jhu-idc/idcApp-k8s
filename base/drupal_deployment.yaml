@@ -22,7 +22,10 @@ spec:
             - name: DRUPAL_DEFAULT_GEMINI_HOST
               value: gemini
             - name: DRUPAL_DEFAULT_BROKER_HOST
-              value: activemq
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: activemq.host
             - name: DRUPAL_INSTANCE
               value: static
             - name: DRUPAL_DEFAULT_CONFIGDIR
