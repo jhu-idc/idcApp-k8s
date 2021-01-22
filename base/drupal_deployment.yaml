@@ -73,7 +73,7 @@ spec:
             - name: DRUPAL_DEFAULT_DB_USER
               value: root
             - name: DEFAULT_SOLR_HOST
-              value: solr
+              value: solr-service
             - name: DRUPAL_DEFAULT_EMAIL
               valueFrom:
                 configMapKeyRef:

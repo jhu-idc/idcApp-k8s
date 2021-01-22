@@ -34,7 +34,7 @@ data:
 
   matomo.url: http://matomo.service/
 
-  solr.host: solr.service
+  solr.host: solr-service
   solr.port: !!integer 8983
   solr.core: ISLANDORA
 
