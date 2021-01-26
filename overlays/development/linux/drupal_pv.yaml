@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 5Gi
   hostPath:
-    path: /minikube-host/idc/drupal-data
+    path: /minikube-host/idc/drupal
 ---
 apiVersion: v1
 kind: PersistentVolume

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crayfits
+  labels:
+    app: crayfits
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crayfits
+  template:
+    metadata:
+      labels:
+        app: crayfits
+    spec:
+      containers:
+        - name: crayfits
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/crayfits:upstream-20200824-f8d1e8e-14-g09641e3
+          imagePullPolicy: Always
+

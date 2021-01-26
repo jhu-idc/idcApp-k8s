@@ -29,8 +29,6 @@ spec:
           image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
           imagePullPolicy: Always
           env:
-            - name: DRUPAL_DEFAULT_GEMINI_HOST
-              value: gemini
             - name: DRUPAL_DEFAULT_BROKER_HOST
               valueFrom:
                 configMapKeyRef:
@@ -98,20 +96,11 @@ spec:
                   name: shared
                   key: drupal.default.locale
             - name: DRUPAL_DEFAULT_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: drupal.default.name
+              value: default
             - name: DRUPAL_DEFAULT_PROFILE
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: drupal.default.profile
+              value: standard
             - name: DRUPAL_DEFAULT_SUBDIR
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: drupal.default.subdir
+              value: default
             - name: DRUPAL_DEFAULT_INSTALL
               valueFrom:
                 configMapKeyRef:
@@ -127,23 +116,6 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: cantaloupe.url
-            # - name: FCREPO_HOST
-            # - name: FCREPO_PORT
-            - name: GEMINI_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: gemini.host
-            - name: GEMINI_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: gemini.port
-            - name: MATOMO_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: matomo.url
             - name: SOLR_CORE
               valueFrom:
                 configMapKeyRef:
@@ -181,7 +153,7 @@ spec:
             claimName: drupal-data
         - name: saml-secrets
           secret:
-            secretName: saml2
+            secretName: saml
         - name: mariadb-files
           persistentVolumeClaim:
             claimName: mariadb-files

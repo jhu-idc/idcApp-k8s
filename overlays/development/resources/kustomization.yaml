@@ -2,15 +2,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ./activemq_pvc.yaml
-  - ./activemq_secrets.yaml
-  - ./cantaloupe_pvc.yaml
-  - ./mariadb_secrets.yaml
-  - ./mariadb_pvc.yaml
-  - ./drupal_secrets.yaml
+  - activemq_pvc.yaml
+  - activemq_secrets.yaml
+  - cantaloupe_pvc.yaml
+  - mariadb_secrets.yaml
+  - mariadb_pvc.yaml
+  - drupal_secrets.yaml
   - etcd_pvc.yaml
-#  - saml-secrets.yaml
   - drupal_pvc.yaml
-  - saml-secrets2.yaml
-#  - saml-secrets3.yaml
+  - saml-secret.yaml
   - solr-pvc.yaml

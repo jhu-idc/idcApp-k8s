@@ -20,8 +20,12 @@ spec:
         imagePullPolicy: Always
         env:
           - name: ALPACA_ACTIVEMQ_URL
-            value: tcp://activemq:61616
+            value: tcp://activemq-service:61613
           - name: ALPACA_ACTIVEMQ_PASSWORD
             value: password
           - name: ALPACA_KARAF_ADMIN_PASSWORD
             value: password
+          - name: ALPACA_FITS_SERVICE
+            value: http://crayfits-service:8000/
+          - name: ALPACA_HOMARUS_SERVICE
+            value: http://homarus-service:8000/convert

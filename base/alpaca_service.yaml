@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alpaca-service
+  labels:
+    app: alpaca-service
+spec:
+  ports:
+    - port: 8181
+      protocol: TCP
+      targetPort: 8181
+  selector:
+    app: alpaca

@@ -19,7 +19,7 @@ data:
   drupal.default.name: default
   drupal.default.profile: standard
   drupal.default.subdir: default
-  drupal.default.site_url: https://bob.library.jhu.edu
+  drupal.default.site_url: https://localhost:8080
 #  drupal.default.configdir: 
 #  drupal.default.account_password: In secrets
 #  drupal.default.db.password: In secrets
