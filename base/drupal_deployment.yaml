@@ -24,9 +24,23 @@ spec:
           env:
             - name: MYSQL_HOST
               value: mariadb-service
+
+        - name: init-db
+          image: ghcr.io/jhu-library-operations/init/mariadb-init:cda2b04
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: mariadb-files
+              mountPath: /var/lib/mysql-files
+          env:
+            - name: MYSQL_HOST
+              value: mariadb-service
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+
       containers:
         - name: drupal
-          image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
+          image: ghcr.io/jhu-library-operations/idc/drupal-static:upstream-20201007-739693ae-138-g55f4e3e   
+          #image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
           imagePullPolicy: Always
           env:
             - name: DRUPAL_DEFAULT_BROKER_HOST
@@ -141,11 +155,32 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: triplestore.port
+            - name: DRUPAL_SP_SESSION_COOKIENAME
+              value: SimpleSAMLSessionID
+            - name: DRUPAL_SP_SESSION_COOKIEPATH
+              value: "/"
+            - name: DRUPAL_SP_SESSION_COOKIESECURE
+              value: "false"
+            - name: DRUPAL_SP_SESSION_COOKIELIFETIMESECONDS
+              value: "0"
+            - name: DRUPAL_SP_ENTITYID
+              value: https://islandora-idc.traefik.me/sp/shibboleth
+            - name: DRUPAL_IDP_ENTITYID
+              value: https://islandora-idp.traefik.me/idp/shibboleth
+            - name: DRUPAL_SP_BASEURL
+              value: https://islandora-idc.traefik.me/
+            - name: DRUPAL_IDP_BASEURL
+              value: https://islandora-idp.traefik.me/idp/shibboleth
+            - name: DRUPAL_SP_TECHCONTACTEMAIL
+              value: moo@cow.org
+            - name: DRUPAL_SP_TECHCONTACTNAME
+              value: Moo Cow
           volumeMounts:
             - name: drupal-data
               mountPath: /var/www/drupal/web/sites/default/files
             - name: saml-secrets
               mountPath: /run/secrets/saml_secrets
+              subPath: saml_secrets
             
       volumes:
         - name: drupal-data
@@ -154,6 +189,9 @@ spec:
         - name: saml-secrets
           secret:
             secretName: saml
+            items:
+              - key: saml-secrets
+                path: saml_secrets
         - name: mariadb-files
           persistentVolumeClaim:
             claimName: mariadb-files

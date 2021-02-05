@@ -22,6 +22,10 @@ resources:
   - houdini_service.yaml
   - hypercube_deployment.yaml
   - hypercube_service.yaml
+  - idp_deployment.yaml
+  - idp_service.yaml
+  - ldap_deployment.yaml
+  - ldap_service.yaml
   - shared_configmap.yaml
   - solr_deployment.yaml
   - solr_service.yaml

@@ -5,10 +5,11 @@ resources:
   - activemq_pvc.yaml
   - activemq_secrets.yaml
   - cantaloupe_pvc.yaml
+  - drupal_secrets.yaml
+  - drupal_pvc.yaml
+  - etcd_pvc.yaml
+  - idp-backchannel_secret.yaml
   - mariadb_secrets.yaml
   - mariadb_pvc.yaml
-  - drupal_secrets.yaml
-  - etcd_pvc.yaml
-  - drupal_pvc.yaml
   - saml-secret.yaml
   - solr-pvc.yaml
