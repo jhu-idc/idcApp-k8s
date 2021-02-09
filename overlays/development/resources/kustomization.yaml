@@ -9,6 +9,10 @@ resources:
   - drupal_pvc.yaml
   - etcd_pvc.yaml
   - idp-backchannel_secret.yaml
+  - idp_deployment.yaml
+  - idp_service.yaml
+  - ldap_deployment.yaml
+  - ldap_service.yaml
   - mariadb_secrets.yaml
   - mariadb_pvc.yaml
   - saml-secret.yaml
