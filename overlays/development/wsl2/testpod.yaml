@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secretest
+spec:
+  containers:
+  - name: test
+    image: mysql:latest
+    command: ['sleep', '10d']
+    volumeMounts:
+      - name: secret
+        mountPath: /run/secrets/saml_secrets
+  volumes:
+    - name: secret
+      secret:
+        secretName: saml
+        
