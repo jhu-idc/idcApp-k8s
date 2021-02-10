@@ -13,10 +13,7 @@ resources:
   - etcd-pv.yaml
   - mariadb_pv.yaml
   - solr_pv.yaml
-
-patchesStrategicMerge:
-  - mariadb_flush_patch.yaml
-
+  - drupal-local-service.yaml
   
 namespace: windev
 
