@@ -8,8 +8,16 @@ spec:
   capacity:
     storage: 1Gi
   hostPath:
-    path: /tmp/kubernetes/idc/mariadb-data
+    path: /run/desktop/mnt/host/c/kubernetes/idc/mariadb-data
     type: DirectoryOrCreate
+  # nodeAffinity:
+  #   required:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: kubernetes.io/hostname
+  #         operator: In
+  #         values:
+  #         - docker-desktop    
 
 ---
 apiVersion: v1
@@ -24,11 +32,3 @@ spec:
   hostPath:
     path: /run/desktop/mnt/host/c/kubernetes/idc/mariadb-files
     type: DirectoryOrCreate
-  # nodeAffinity:
-  #   required:
-  #     nodeSelectorTerms:
-  #     - matchExpressions:
-  #       - key: kubernetes.io/hostname
-  #         operator: In
-  #         values:
-  #         - docker-desktop
