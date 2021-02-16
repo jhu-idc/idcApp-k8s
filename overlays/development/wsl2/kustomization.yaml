@@ -5,15 +5,15 @@ bases:
   - ../../../base
   - ../../development/resources/
 
-# resources:
-#   - namespace.yaml
-#   - activemq-volume.yaml
-#   - cantaloupe_volume.yaml
-#   - mariadb_pv.yaml
-#   - etcd-pv.yaml
-#   - drupal_pv.yaml
-#   - solr_pv.yaml
-
+resources:
+  - namespace.yaml
+  - activemq-volume.yaml
+  - cantaloupe_volume.yaml
+  - drupal_pv.yaml
+  - etcd-pv.yaml
+  - mariadb_pv.yaml
+  - solr_pv.yaml
+  - drupal-local-service.yaml
   
 namespace: windev
 

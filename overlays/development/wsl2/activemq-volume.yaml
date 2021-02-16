@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: activemq-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: /run/desktop/mnt/host/c/kubernetes/idc/activemq-data
+    type: DirectoryOrCreate
