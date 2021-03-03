@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: idc-bootstrap
+spec:
+  template:
+    spec:
+      volumes:
+        - name: mariadb-files
+          persistentVolumeClaim:
+            claimName: mariadb-files
+        - name: solr-data
+          persistentVolumeClaim:
+            claimName: solr-data
+        - name: drupal-data
+          persistentVolumeClaim:
+            claimName: drupal-data
+      containers:
+      - name: aws-cli
+        image: amazon/aws-cli
+        command: ["/bin/sh"]
+        args: ["-c","for i in `ls /mnt/`; do aws s3 cp --recursive s3://idc-init/idc/$i/ /mnt/$i; done;"]
+        volumeMounts:
+          - mountPath: /mnt/mariadb-files
+            name: mariadb-files
+          - mountPath: /mnt/solr-data
+            name: solr-data
+          - mountPath: /mnt/drupal-data
+            name: drupal-data
+      restartPolicy: Never

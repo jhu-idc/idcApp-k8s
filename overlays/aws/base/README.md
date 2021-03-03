@@ -1,0 +1,1 @@
+This folder contains base manifests that only apply to this cloud environment.
