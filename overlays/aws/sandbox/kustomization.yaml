@@ -3,10 +3,13 @@ kind: Kustomization
 
 bases:
   - ../../../base
-
+  - ../base
 resources:
   - namespace.yaml
+  - resources/
   - volumes/
 
+patchesStrategicMerge:
+  - resources/drupal_service_patch.yaml
 
 namespace: sandbox
