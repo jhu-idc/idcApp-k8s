@@ -9,3 +9,5 @@ overlays/aws/*/volumes/*
 !overlays/aws/*/volumes/kustomization.yaml
 overlays/aws/*/patches/secret*patch.yaml
 overlays/aws/*/patches/shared*patch.yaml
+overlays/aws/test/patches/testfile.yaml
+overlays/aws/base/idc-debug.yaml
