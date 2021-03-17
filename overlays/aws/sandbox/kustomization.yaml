@@ -11,5 +11,12 @@ resources:
 
 patchesStrategicMerge:
   - resources/drupal_service_patch.yaml
+  - patches/secret-drupal-root_password-patch.yaml
+  - patches/shared-shared-db.host-patch.yaml
+  - patches/shared-shared-db.name-patch.yaml
+  - patches/shared-shared-db.port-patch.yaml
+  - patches/shared-shared-db.rootUser-patch.yaml
+  - patches/shared-shared-drupal.default.db_user-patch.yaml ##XXX REMOVE THIS FOR PRODUCTION OR CHANGE USERNAME!!
+  - patches/secret-drupal-user_password-patch.yaml ## XXX REMOVE THIS FOR PRODUCTION OR CHANGE THE PASS!!
 
 namespace: sandbox
