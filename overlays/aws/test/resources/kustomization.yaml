@@ -10,5 +10,5 @@ resources:
   - ldap_deployment.yaml
   - ldap_service.yaml
   - mariadb_secrets.yaml
-  - saml-secret.yaml
+  - saml-secret-sealed.yaml
   
