@@ -234,11 +234,26 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: drupal.sp.cookiesecure
+            - name: DRUPAL_SP_SESSION_DURATIONSECONDS
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.session_durationseconds
+            - name: DRUPAL_SP_SESSION_DATASTORETIMEOUTSECONDS
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.session_datastoretimeoutseconds
+            - name: DRUPAL_SP_SESSION_STATETIMEOUTSECONDS
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.session_statetimeoutseconds                  
             - name: DRUPAL_SP_SESSION_COOKIELIFETIMESECONDS
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: drupal.sp.cookielifetime
+                  key: drupal.sp.cookielifetime                                    
             - name: DRUPAL_SP_ENTITYID
               valueFrom:
                 configMapKeyRef:
@@ -269,6 +284,11 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: drupal.sp.techname
+            - name: DRUPAL_SP_PROTECTINDEXPAGE 
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.protectedindexpage
           volumeMounts:
             - name: drupal-data
               mountPath: /var/www/drupal/web/sites/default/files

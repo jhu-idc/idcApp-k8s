@@ -36,9 +36,12 @@ data:
   drupal.sp.baseurl: "https://islandora-idc.traefik.me/"
   drupal.sp.techemail: "moo@cow.org"
   drupal.sp.techname: "Moo Cow"
+  drupal.sp.protectedindexpage: "false"
   drupal.idp.entityid: "https://islandora-idp.traefik.me/idp/shibboleth"
   drupal.idp.baseurl: "https://islandora-idp.traefik.me/idp/shibboleth"
-
+  drupal.sp.session_statetimeoutseconds: "3600"
+  drupal.sp.session_datastoretimeoutseconds: "14400"
+  drupal.sp.session_durationseconds: "28800"
 
 
   activemq.host: activemq-service
