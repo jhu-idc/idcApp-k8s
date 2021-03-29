@@ -11,3 +11,5 @@ overlays/aws/*/patches/secret*patch.yaml
 overlays/aws/*/patches/shared*patch.yaml
 overlays/aws/test/patches/testfile.yaml
 overlays/aws/base/idc-debug.yaml
+overlays/aws/test/resources/saml-secret.yaml
+overlays/aws/test/resources/saml-secrets.json
