@@ -39,7 +39,7 @@ spec:
 
       containers:
         - name: drupal
-          image: ghcr.io/jhu-library-operations/idc/drupal-static:upstream-20201007-739693ae-138-g55f4e3e   
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:e6c3630
           #image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
           imagePullPolicy: Always
           env:
