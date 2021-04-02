@@ -30,5 +30,5 @@ spec:
   capacity:
     storage: 1Gi
   hostPath:
-    path: /run/desktop/mnt/host/c/kubernetes/idc/mariadb-files
+    path: /run/desktop/mnt/host/c/kubernetes/idc/mariadb-dump
     type: DirectoryOrCreate
