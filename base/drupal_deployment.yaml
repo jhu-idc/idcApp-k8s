@@ -59,7 +59,7 @@ spec:
         - name: drupal
           #image: ghcr.io/jhu-library-operations/idc/drupal-static:upstream-20201007-739693ae-138-g55f4e3e   
           #image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:d593cd5
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:ca29a84
           imagePullPolicy: Always
           # command: ["/bin/sh"]
           # args: ["-c","while true; do sleep 10; done;"]
