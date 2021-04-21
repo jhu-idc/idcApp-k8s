@@ -15,7 +15,7 @@ spec:
         app: drupal
     spec:
       initContainers:
-        - image: ghcr.io/jhu-library-operations/init/wait-for-db:36c5712
+        - image: ghcr.io/jhu-library-operations/init/wait-for-db:latest
           name: wait-for-db
           imagePullPolicy: Always
           volumeMounts:
@@ -23,7 +23,10 @@ spec:
               mountPath: /var/lib/mysql-files
           env:
             - name: MYSQL_HOST
-              value: mariadb-service
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.host
 
         - name: init-db
           image: ghcr.io/jhu-library-operations/init/mariadb-init:cda2b04
@@ -33,15 +36,32 @@ spec:
               mountPath: /var/lib/mysql-files
           env:
             - name: MYSQL_HOST
-              value: mariadb-service
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.host
             - name: MYSQL_ROOT_PASSWORD
-              value: password
-
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: root_password
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.port
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.name
       containers:
         - name: drupal
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:e6c3630
           #image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:ca29a84
           imagePullPolicy: Always
+          # command: ["/bin/sh"]
+          # args: ["-c","while true; do sleep 10; done;"]
           env:
             - name: DRUPAL_DEFAULT_BROKER_HOST
               valueFrom:
@@ -53,16 +73,25 @@ spec:
             - name: DRUPAL_DEFAULT_CONFIGDIR
               value: /var/www/drupal/config/sync
             - name: DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG
-              value: "true"
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.install
             - name: DRUPAL_DEFAULT_PROFILE
-              value: minimal
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.profile
             - name: DRUPAL_DEFAULT_DB_DRIVER
               valueFrom:
                 configMapKeyRef:
                   name: shared
                   key: db.driver
             - name: DRUPAL_DEFAULT_DB_HOST
-              value: mariadb-service
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.host
             - name: DRUPAL_DEFAULT_DB_PORT
               valueFrom:
                 configMapKeyRef:
@@ -71,34 +100,70 @@ spec:
             - name: DRUPAL_DEFAULT_SALT
               value: 9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg
             - name: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: root_password
             - name: MYSQL_ROOT_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: root_password
             - name: DRUPAL_DB_ROOT_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: root_password
             - name: DRUPAL_DB_ROOT_USER
-              value: root
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.rootUser
             - name: DRUPAL_DEFAULT_DB_ROOT_USER
-              value: root
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.rootUser
             - name: DRUPAL_DEFAULT_SITE_URL
-              value: "http://islandora-idc.traefik.me"
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.site_url
             - name: DRUPAL_DEFAULT_ACCOUNT_EMAIL
               valueFrom:
                 configMapKeyRef:
                   name: shared
                   key: drupal.default.email
             - name: DRUPAL_DEFAULT_ACCOUNT_NAME
-              value: drupal_default
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.account_name
             - name: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: def_acct_pass
             - name: DRUPAL_DEFAULT_DB_NAME
-              value: drupal_default
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.name
             - name: DRUPAL_DEFAULT_DB_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: user_password
             - name: DRUPAL_DEFAULT_DB_USER
-              value: root
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.db_user
             - name: DEFAULT_SOLR_HOST
-              value: solr-service
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: solr.host
             - name: DRUPAL_DEFAULT_EMAIL
               valueFrom:
                 configMapKeyRef:
@@ -111,8 +176,6 @@ spec:
                   key: drupal.default.locale
             - name: DRUPAL_DEFAULT_NAME
               value: default
-            - name: DRUPAL_DEFAULT_PROFILE
-              value: standard
             - name: DRUPAL_DEFAULT_SUBDIR
               value: default
             - name: DRUPAL_DEFAULT_INSTALL
@@ -156,33 +219,90 @@ spec:
                   name: shared
                   key: triplestore.port
             - name: DRUPAL_SP_SESSION_COOKIENAME
-              value: SimpleSAMLSessionID
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.cookiename
             - name: DRUPAL_SP_SESSION_COOKIEPATH
-              value: "/"
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.cookiepath
             - name: DRUPAL_SP_SESSION_COOKIESECURE
-              value: "false"
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.cookiesecure
+            - name: DRUPAL_SP_SESSION_DURATIONSECONDS
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.session_durationseconds
+            - name: DRUPAL_SP_SESSION_DATASTORETIMEOUTSECONDS
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.session_datastoretimeoutseconds
+            - name: DRUPAL_SP_SESSION_STATETIMEOUTSECONDS
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.session_statetimeoutseconds                  
             - name: DRUPAL_SP_SESSION_COOKIELIFETIMESECONDS
-              value: "0"
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.cookielifetime                                    
             - name: DRUPAL_SP_ENTITYID
-              value: https://islandora-idc.traefik.me/sp/shibboleth
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.entityid
             - name: DRUPAL_IDP_ENTITYID
-              value: https://islandora-idp.traefik.me/idp/shibboleth
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.idp.entityid
             - name: DRUPAL_SP_BASEURL
-              value: https://islandora-idc.traefik.me/
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.baseurl
             - name: DRUPAL_IDP_BASEURL
-              value: https://islandora-idp.traefik.me/idp/shibboleth
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.idp.baseurl
             - name: DRUPAL_SP_TECHCONTACTEMAIL
-              value: moo@cow.org
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.techemail
             - name: DRUPAL_SP_TECHCONTACTNAME
-              value: Moo Cow
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.techname
+            - name: DRUPAL_SP_PROTECTINDEXPAGE 
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.sp.protectedindexpage
           volumeMounts:
             - name: drupal-data
               mountPath: /var/www/drupal/web/sites/default/files
             - name: saml-secrets
               mountPath: /run/secrets/saml_secrets
               subPath: saml_secrets
-            
+            # - name: patchfile
+            #   mountPath: /etc/cont-init.d/99-custom-setup.sh
+            #   subPath: patchfile
+              
       volumes:
+        - name: patchfile
+          secret:
+            secretName: patchfile
+            defaultMode: 0755
         - name: drupal-data
           persistentVolumeClaim:
             claimName: drupal-data

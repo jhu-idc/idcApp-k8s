@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ldap
+  labels:
+    app: ldap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ldap
+  template:
+    metadata:
+      labels:
+        app: ldap
+    spec:
+      containers:
+        - name: ldap
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/ldap:upstream-20200824-f8d1e8e-14-g09641e3
+          imagePullPolicy: Always
+

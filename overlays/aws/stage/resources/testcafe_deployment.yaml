@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testcafe
+  labels:
+    app: testcafe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testcafe
+  template:
+    metadata:
+      labels:
+        app: testcafe
+    spec:
+      containers:
+        - name: testcafe
+          image: testcafe/testcafe:1.9.4
+          imagePullPolicy: Always
+          
