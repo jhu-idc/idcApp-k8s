@@ -15,17 +15,21 @@ spec:
         app: alpaca
     spec:
       containers:
-      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/alpaca:upstream-20200824-f8d1e8e-19-g35fa7d2
+      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/alpaca:upstream-20200824-f8d1e8e-23-g9fe79fc
         name: alpaca
         imagePullPolicy: Always
         env:
           - name: ALPACA_ACTIVEMQ_URL
-            value: tcp://activemq-service:61613
+            value: tcp://activemq-service:61616
           - name: ALPACA_ACTIVEMQ_PASSWORD
             value: password
           - name: ALPACA_KARAF_ADMIN_PASSWORD
             value: password
           - name: ALPACA_FITS_SERVICE
             value: http://crayfits-service:8000/
+          - name: ALPACA_HOUDINI_SERVICE
+            value: http://houdini-service:8000/convert
           - name: ALPACA_HOMARUS_SERVICE
             value: http://homarus-service:8000/convert
+          - name: ALPACA_OCR_SERVICE
+            value: http://hypercube-service:8000

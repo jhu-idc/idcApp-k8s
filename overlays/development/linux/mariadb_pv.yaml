@@ -21,4 +21,4 @@ spec:
   capacity:
     storage: 1Gi
   hostPath:
-    path: /minikube-host/idc/mariadb-files
+    path: /minikube-host/idc/mariadb-dump
