@@ -1,13 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-<<<<<<< HEAD
-resources:
-  - prod/
-  - sandbox/
-  - stage/
-  - test/
-=======
 bases:
   - ../../../base
   - ../base
@@ -27,4 +20,3 @@ patchesStrategicMerge:
   - patches/secret-drupal-user_password-patch.yaml ## XXX REMOVE THIS FOR PRODUCTION OR CHANGE THE PASS!!
 
 namespace: stage
->>>>>>> 8eb2870a2800590f4357a618f61a22996082dbf3
