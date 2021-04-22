@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - activemq_secrets.yaml
+  - drupal_secrets.yaml
+  - idp-backchannel_secret.yaml
+  - idp_deployment.yaml
+  - idp_service.yaml
+  - ldap_deployment.yaml
+  - ldap_service.yaml
+  - saml-secret-sealed.yaml
+  
