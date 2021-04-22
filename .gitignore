@@ -5,12 +5,11 @@
 *pv.yaml
 manifests/infrastructure/*/volumes/*
 !manifests/infrastructure/*/volumes/kustomization.yaml
-<<<<<<< HEAD
 overlays/aws/definitions/*/volumes/*
 !overlays/aws/definitions/*/volumes/kustomization.yaml
 overlays/aws/definitions/*/patches/secret*patch.yaml
 overlays/aws/definitions/*/patches/shared*patch.yaml
 overlays/aws/definitions/test/patches/testfile.yaml
 overlays/aws/base/idc-debug.yaml
-overlays/aws/definitions/test/resources/saml-secret.yaml
-overlays/aws/definitions/test/resources/saml-secrets.json
+overlays/aws/definitions/*/resources/saml-secret.yaml
+overlays/aws/definitions/*/resources/saml-secrets.json
