@@ -8,13 +8,17 @@ data:
   db.port: !!integer 3306
   db.driver: mysql
   db.rootUser: root
+  db.name: drupal_default
+  # db.rootPassword: In Secrets
 
-  drupal.default.install: "false"
+  drupal.default.install: "true"
   drupal.default.email: "moo@moo.net"
 
   drupal.default.account_name: admin
+  drupal.default.db_host: mariadb-service
   drupal.default.db_name: drupal_default
   drupal.default.db_user: admin
+  
   drupal.default.locale: en
   drupal.default.name: default
   drupal.default.profile: standard
@@ -23,6 +27,22 @@ data:
 #  drupal.default.configdir: 
 #  drupal.default.account_password: In secrets
 #  drupal.default.db.password: In secrets
+
+  drupal.sp.cookiename: "SimpleSAMLSessionID"
+  drupal.sp.cookiepath: "/"
+  drupal.sp.cookiesecure: "false"
+  drupal.sp.cookielifetime: "0"
+  drupal.sp.entityid: "https://islandora-idc.traefik.me/sp/shibboleth"
+  drupal.sp.baseurl: "https://islandora-idc.traefik.me/"
+  drupal.sp.techemail: "moo@cow.org"
+  drupal.sp.techname: "Moo Cow"
+  drupal.sp.protectedindexpage: "false"
+  drupal.idp.entityid: "https://islandora-idp.traefik.me/idp/shibboleth"
+  drupal.idp.baseurl: "https://islandora-idp.traefik.me/idp/shibboleth"
+  drupal.sp.session_statetimeoutseconds: "3600"
+  drupal.sp.session_datastoretimeoutseconds: "14400"
+  drupal.sp.session_durationseconds: "28800"
+
 
   activemq.host: activemq-service
   activemq.port: !!integer 61613

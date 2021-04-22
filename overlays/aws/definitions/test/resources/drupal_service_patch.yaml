@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: drupal-service
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: test.idc-kubernetes.cloud.library.jhu.edu
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:240722363399:certificate/0a8194fe-7edd-4e76-82d0-4118e5c6114f
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+spec:
+  ports:
+    - port: 80
+      name: http
+    - port: 443
+      name: https
+      protocol: TCP
+      targetPort: 80    
