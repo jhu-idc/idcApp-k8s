@@ -9,6 +9,5 @@ resources:
   - idp_service.yaml
   - ldap_deployment.yaml
   - ldap_service.yaml
-  - mariadb_secrets.yaml
   - saml-secret-sealed.yaml
   
