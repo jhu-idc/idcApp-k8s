@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-data
+spec:
+  storageClassName: ""
+  volumeName: mariadb-data
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1G
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-files
+spec:
+  storageClassName: ""
+  volumeName: mariadb-files
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
