@@ -15,7 +15,4 @@ resources:
   - solr_pv.yaml
 
   
-namespace: linuxdevelopment
-
-
-  
+namespace: linuxdev

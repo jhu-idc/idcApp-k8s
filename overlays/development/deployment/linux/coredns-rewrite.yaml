@@ -8,7 +8,7 @@ data:
           pods insecure
           fallthrough in-addr.arpa ip6.arpa
         }
-        rewrite name islandora-idc.traefik.me drupal-serviec
+        rewrite name islandora-idc.traefik.me drupal-service
         prometheus :9153
         forward . /etc/resolv.conf
         cache 30
