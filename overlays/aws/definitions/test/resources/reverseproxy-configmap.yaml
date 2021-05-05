@@ -583,10 +583,12 @@ data:
 
     <VirtualHost *:80>
 
+      AllowEncodedSlashes On
       ProxyPreserveHost on
-      RequestHeader set X-Forwarded-Proto "https" env=HTTPS
-      ProxyPassMatch "/cantaloupe/(.*)" "http://cantaloupe-service:8080/cantaloupe/$1"
+      RequestHeader set X-Forwarded-Proto "https"
+      ProxyPass "/cantaloupe/" "http://cantaloupe-service:8080/cantaloupe/" nocanon
       ProxyPass "/" "http://drupal-service/"
+
 
     </VirtualHost>
 
