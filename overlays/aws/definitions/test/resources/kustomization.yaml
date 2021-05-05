@@ -12,3 +12,4 @@ resources:
   - saml-secret-sealed.yaml
   - reverseproxy.yaml
   - reverseproxy-configmap.yaml
+  - reverseproxy-service.yaml
