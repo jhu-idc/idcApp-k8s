@@ -25,10 +25,10 @@ spec:
               memory: "512Mi"
               cpu: 0.5
           volumeMounts:
-          # - name: reverseproxy
-          #   mountPath: /usr/local/apache2/conf/extra/httpd-vhosts.conf
-          #   subPath: httpd-vhosts.conf
-          #   readOnly: true
+          - name: reverseproxy
+            mountPath: /usr/local/apache2/conf/extra/httpd-vhosts.conf
+            subPath: httpd-vhosts.conf
+            readOnly: true
           - name: reverseproxy
             mountPath: /usr/local/apache2/conf/httpd.conf
             subPath: httpd.conf

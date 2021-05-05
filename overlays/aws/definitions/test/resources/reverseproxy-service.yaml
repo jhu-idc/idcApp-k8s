@@ -13,7 +13,7 @@ spec:
     - port: 80
       name: http
       protocol: TCP
-      targetPort: 80
+      targetPort: 4015
     - port: 443
       name: https
       protocol: TCP
