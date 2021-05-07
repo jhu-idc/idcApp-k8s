@@ -3,15 +3,20 @@ data:
   Corefile: |
     .:53 {
         errors
-        health
-        kubernetes cluster.local in-addr.arpa ip6.arpa {
-          pods insecure
-          upstream
-          fallthrough in-addr.arpa ip6.arpa
+        health {
+           lameduck 5s
         }
-        rewrite name islandora-idc.traefik.me drupal-service
+        ready
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           fallthrough in-addr.arpa ip6.arpa
+           ttl 30
+        }
+        rewrite name exact islandora-idc.traefik.me mariadb-service
         prometheus :9153
-        forward . /etc/resolv.conf
+        forward . /etc/resolv.conf {
+           max_concurrent 1000
+        }
         cache 30
         loop
         reload
