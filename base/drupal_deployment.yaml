@@ -24,13 +24,37 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: db.host
+        - name: init-db
+          image: ghcr.io/jhu-library-operations/init/mariadb-init:cda2b04
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: mariadb-files
+              mountPath: /var/lib/mysql-files
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.host
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: root_password
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.port
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: db.name
       containers:
         - name: drupal
-          #image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:ca29a84
           imagePullPolicy: Always
-          # command: ["/bin/sh"]
-          # args: ["-c","while true; do sleep 10; done;"]
           env:
             - name: DRUPAL_DEFAULT_BROKER_HOST
               valueFrom:
