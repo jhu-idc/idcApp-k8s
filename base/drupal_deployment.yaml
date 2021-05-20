@@ -25,7 +25,7 @@ spec:
                   name: shared
                   key: db.host
         - name: init-db
-          image: ghcr.io/jhu-library-operations/init/mariadb-init:cda2b04
+          image: ghcr.io/jhu-library-operations/init/mariadb-init:6e5ef62
           imagePullPolicy: Always
           volumeMounts:
             - name: mariadb-files
@@ -51,6 +51,16 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: db.name
+            - name: DRUPAL_DEFAULT_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: user_password
+            - name: DRUPAL_DEFAULT_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.db_user                
       containers:
         - name: drupal
           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:ca29a84
