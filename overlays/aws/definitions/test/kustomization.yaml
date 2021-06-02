@@ -23,5 +23,7 @@ patchesStrategicMerge:
   - patches/drupal.sp-patch.yaml
   - patches/drupal.namespace-patch.yaml
   - patches/reverseproxy-service-ssl-patch.yaml
+  - patches/drupal-cantaloupe-url-patch.yaml
+  - patches/drupal-s3-env-patch.yaml
   
 namespace: test

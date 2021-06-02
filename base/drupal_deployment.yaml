@@ -51,72 +51,17 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: db.name
-            - name: DRUPAL_DEFAULT_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: drupal
-                  key: user_password
-            - name: DRUPAL_DEFAULT_DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: drupal.default.db_user                
+   
       containers:
         - name: drupal
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:ca29a84
+          #image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
+          #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:ca29a84
+          #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:fb1c58e
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:upstream-20201007-739693ae-290-gda87f78
+
           imagePullPolicy: Always
           env:
-            - name: DRUPAL_DEFAULT_BROKER_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: activemq.host
-            - name: DRUPAL_INSTANCE
-              value: static
-            - name: DRUPAL_DEFAULT_CONFIGDIR
-              value: /var/www/drupal/config/sync
-            - name: DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: drupal.default.install
-            - name: DRUPAL_DEFAULT_PROFILE
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: drupal.default.profile
-            - name: DRUPAL_DEFAULT_DB_DRIVER
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: db.driver
-            - name: DRUPAL_DEFAULT_DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: db.host
-            - name: DRUPAL_DEFAULT_DB_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: db.port
-            - name: DRUPAL_DEFAULT_SALT
-              value: 9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg
-            - name: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: drupal
-                  key: root_password
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: drupal
-                  key: root_password
-            - name: DRUPAL_DB_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: drupal
-                  key: root_password
+
             - name: DRUPAL_DB_ROOT_USER
               valueFrom:
                 configMapKeyRef:
@@ -127,26 +72,6 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: db.rootUser
-            - name: DRUPAL_DEFAULT_SITE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: drupal.default.site_url
-            - name: DRUPAL_DEFAULT_ACCOUNT_EMAIL
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: drupal.default.email
-            - name: DRUPAL_DEFAULT_ACCOUNT_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: drupal.default.account_name
-            - name: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: drupal
-                  key: def_acct_pass
             - name: DRUPAL_DEFAULT_DB_NAME
               valueFrom:
                 configMapKeyRef:
@@ -162,65 +87,103 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: drupal.default.db_user
-            - name: DEFAULT_SOLR_HOST
+
+            - name: DRUPAL_DEFAULT_BROKER_HOST
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: solr.host
-            - name: DRUPAL_DEFAULT_EMAIL
+                  key: activemq.host
+            - name: DRUPAL_INSTANCE
+              value: static
+            - name: DRUPAL_DEFAULT_ACCOUNT_EMAIL
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: drupal.default.email
-            - name: DRUPAL_DEFAULT_LOCALE
+                  key: drupal.default.account.email
+            - name: DRUPAL_DEFAULT_ACCOUNT_NAME
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: drupal.default.locale
-            - name: DRUPAL_DEFAULT_NAME
-              value: default
-            - name: DRUPAL_DEFAULT_SUBDIR
-              value: default
-            - name: DRUPAL_DEFAULT_INSTALL
+                  key: drupal.default.account.name
+            - name: DRUPAL_DEFAULT_CANTALOUPE_URL
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: drupal.default.install
-            - name: BROKER_PORT
+                  key: drupal.default.cantaloupe.url              
+            - name: DRUPAL_DEFAULT_CONFIGDIR
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: activemq.port
-            - name: CANTALOUPE_URL
+                  key: drupal.default.configdir
+            - name: DRUPAL_DEFAULT_DB_DRIVER
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: cantaloupe.url
-            - name: SOLR_CORE
+                  key: db.driver
+            - name: DRUPAL_DEFAULT_DB_HOST
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: solr.core
-            - name: SOLR_PORT
+                  key: db.host
+            - name: DRUPAL_DEFAULT_DB_PORT
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: solr.port
-            - name: TRIPLESTORE_HOST
+                  key: db.port
+            - name: DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: triplestore.host
-            - name: TRIPLESTORE_NAMESPACE
+                  key: drupal.default.install_existing_config
+            - name: DRUPAL_DEFAULT_PROFILE
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: triplestore.namespace
-            - name: TRIPLESTORE_PORT
+                  key: drupal.default.profile
+            - name: DRUPAL_DEFAULT_SITE_URL
               valueFrom:
                 configMapKeyRef:
                   name: shared
-                  key: triplestore.port
+                  key: drupal.default.site_url
+# Begin: Drupal Secrets
+            - name: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: def_acct_pass
+            - name: DRUPAL_DEFAULT_SALT
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: default_salt
+              #value: 9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg
+            - name: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: root_password
+            - name: DRUPAL_JWT_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: jwt_private_key
+            - name: DRUPAL_JWT_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: jwt_public_key
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: root_password
+            - name: DRUPAL_DB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: root_password
+# End: Drupal Secrets
+# Begin: SAML Config                  
             - name: DRUPAL_SP_SESSION_COOKIENAME
               valueFrom:
                 configMapKeyRef:
@@ -291,6 +254,110 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: drupal.sp.protectedindexpage
+# End: Saml Config
+# Begin: S3 config                  
+            - name: DRUPAL_DEFAULT_S3_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: s3AccessKey
+            - name: DRUPAL_DEFAULT_S3_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: s3SecretKey
+            - name: DRUPAL_DEFAULT_S3_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: s3BucketName
+            - name: DRUPAL_DEFAULT_S3_USE_CUSTOMHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.s3_use_customhost
+            - name: DRUPAL_DEFAULT_S3_CUSTOMHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.s3_customhost
+            - name: DRUPAL_DEFAULT_S3_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.s3_hostname
+            - name: DRUPAL_DEFAULT_S3_USE_CNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.s3_use_cname
+            - name: DRUPAL_DEFAULT_S3_USE_PATH_STYLE_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.s3_use_path_style_endpoint
+# End: S3 config                  
+# Begin: Review and remove if not needed
+            - name: DEFAULT_SOLR_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: solr.host
+            - name: DRUPAL_DEFAULT_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.account.email
+            # - name: DRUPAL_DEFAULT_LOCALE
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: shared
+            #       key: drupal.default.locale
+            - name: DRUPAL_DEFAULT_NAME
+              value: default
+            - name: DRUPAL_DEFAULT_SUBDIR
+              value: default
+            # - name: DRUPAL_DEFAULT_INSTALL
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: shared
+            #       key: drupal.default.install
+            - name: BROKER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: activemq.port
+            - name: CANTALOUPE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: cantaloupe.url
+            - name: SOLR_CORE
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: solr.core
+            - name: SOLR_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: solr.port
+            - name: TRIPLESTORE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: triplestore.host
+            - name: TRIPLESTORE_NAMESPACE
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: triplestore.namespace
+            - name: TRIPLESTORE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: triplestore.port
+# End: Review and remove if not needed
           volumeMounts:
             - name: drupal-data
               mountPath: /var/www/drupal/web/sites/default/files
