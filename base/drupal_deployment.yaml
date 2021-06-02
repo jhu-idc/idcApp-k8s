@@ -18,18 +18,14 @@ spec:
         - image: ghcr.io/jhu-library-operations/init/wait-for-db:latest
           name: wait-for-db
           imagePullPolicy: Always
-          volumeMounts:
-            - name: mariadb-files
-              mountPath: /var/lib/mysql-files
           env:
             - name: MYSQL_HOST
               valueFrom:
                 configMapKeyRef:
                   name: shared
                   key: db.host
-
         - name: init-db
-          image: ghcr.io/jhu-library-operations/init/mariadb-init:cda2b04
+          image: ghcr.io/jhu-library-operations/init/mariadb-init:6e5ef62
           imagePullPolicy: Always
           volumeMounts:
             - name: mariadb-files
@@ -55,16 +51,15 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: db.name
-             
+   
       containers:
         - name: drupal
           #image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
           #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:ca29a84
           #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:fb1c58e
           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:upstream-20201007-739693ae-290-gda87f78
+
           imagePullPolicy: Always
-          # command: ["/bin/sh"]
-          # args: ["-c","while true; do sleep 10; done;"]
           env:
 
             - name: DRUPAL_DB_ROOT_USER
