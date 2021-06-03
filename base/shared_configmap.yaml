@@ -9,25 +9,52 @@ data:
   db.driver: mysql
   db.rootUser: root
   db.name: drupal_default
-  # db.rootPassword: In Secrets
 
-  drupal.default.install: "true"
-  drupal.default.email: "moo@moo.net"
-
-  drupal.default.account_name: admin
-  drupal.default.db_host: mariadb-service
-  drupal.default.db_name: drupal_default
-  drupal.default.db_user: admin
-  
-  drupal.default.locale: en
-  drupal.default.name: default
+# default site config
+  drupal.default.account.email: admin@example.org
+  drupal.default.account.name: admin
+  drupal.default.cantaloupe.url: https://islandora-idc.traefik.me/cantaloupe/iiif/2
+  drupal.default.configdir: /var/www/drupal/config/sync
+  drupal.default.db_driver: mysql
+  drupal.default.db_host: mariadb-idc.traefik.me
+  drupal.default.db_port: "3306"
+  drupal.default.install_existing_config: "true"
   drupal.default.profile: standard
-  drupal.default.subdir: default
-  drupal.default.site_url: https://localhost:8080
+  drupal.default.site_url: http://islandora-idc.traefik.me
+  
+# should be migrated to sealed secrets
+  drupal.default.account.password: password
+  drupal.default.db_password: password
+  drupal.default.db_root_password: password
+  drupal.default.salt: 9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg
+# these need to be generated, then migrated to sealed secrets
+  drupal.jwt_private_key: '-----BEGIN RSA PRIVATE KEY-----'
+  drupal.jwt_public_key: '-----BEGIN PUBLIC KEY-----'
+
+# Old stuff, to be removed
+  # drupal.default.install: "true"
+  # drupal.default.email: "moo@moo.net"
+
+  # drupal.default.account_name: admin
+  # drupal.default.db_host: mariadb-service
+  # drupal.default.db_name: drupal_default
+  # drupal.default.db_user: admin
+  
+  # drupal.default.locale: en
+  # drupal.default.name: default
+  # drupal.default.profile: standard
+  # drupal.default.subdir: default
+  # drupal.default.site_url: https://localhost:8080
+
 #  drupal.default.configdir: 
 #  drupal.default.account_password: In secrets
 #  drupal.default.db.password: In secrets
+### End Old Stuff to be removed
 
+
+# SAML Configuration options
+  drupal.sp.assertionallowedclockskew: "180"
+  drupal.sp.checkforupdates: "true"
   drupal.sp.cookiename: "SimpleSAMLSessionID"
   drupal.sp.cookiepath: "/"
   drupal.sp.cookiesecure: "false"
@@ -36,14 +63,27 @@ data:
   drupal.sp.baseurl: "https://islandora-idc.traefik.me/"
   drupal.sp.techemail: "moo@cow.org"
   drupal.sp.techname: "Moo Cow"
+  drupal.sp.techcontactemail: moo@cow.org
+  drupal.sp.techcontactname: Moo Cow
   drupal.sp.protectedindexpage: "false"
   drupal.idp.entityid: "https://islandora-idp.traefik.me/idp/shibboleth"
   drupal.idp.baseurl: "https://islandora-idp.traefik.me/idp/shibboleth"
   drupal.sp.session_statetimeoutseconds: "3600"
   drupal.sp.session_datastoretimeoutseconds: "14400"
   drupal.sp.session_durationseconds: "28800"
+  drupal.sp.session_cookiesecure: "false"
+  drupal.sp.session_cookielifetimeseconds: "0"
+  drupal.sp.session_cookiename: SimpleSAMLSessionID
+  drupal.sp.session_cookiepath: /
 
+# S3 configuration options for default site
+  drupal.default.s3_use_customhost: "false"
+  drupal.default.s3_customhost: ""
+  drupal.default.s3_hostname: ""
+  drupal.default.s3_use_cname: "false"
+  drupal.default.s3_use_path_style_endpoint: ""
 
+  
   activemq.host: activemq-service
   activemq.port: !!integer 61613
 
