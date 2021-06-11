@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: reverseproxy-service
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: stage.idc-kubernetes.cloud.library.jhu.edu
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:240722363399:certificate/0a8194fe-7edd-4e76-82d0-4118e5c6114f
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+spec:
+  ports:
+    - port: 80
+      name: http
+      protocol: TCP
+      targetPort: 4015
+    - port: 443
+      name: https
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: reverseproxy
