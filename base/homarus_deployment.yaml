@@ -16,13 +16,13 @@ spec:
     spec:
       containers:
         - name: homarus
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/homarus:upstream-20200824-f8d1e8e-23-g9fe79fc
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/homarus:upstream-20200824-f8d1e8e-27-g6cd914d
           imagePullPolicy: Always
           env:
             - name: HOMARUS_JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
-                  name: drupal
+                  name: drupal-sealed
                   key: jwt_public_key
             - name: HOMARUS_JWT_ADMIN_TOKEN
               value: islandora
