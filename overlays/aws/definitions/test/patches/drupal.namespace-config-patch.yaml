@@ -4,4 +4,4 @@ metadata:
   name: shared
 data:
   drupal.default.site_url: "https://test.digital.library.jhu.edu"
-  
+  drupal.default.cantaloupe.url: https://test.digital.library.jhu.edu/cantaloupe/iiif/2
