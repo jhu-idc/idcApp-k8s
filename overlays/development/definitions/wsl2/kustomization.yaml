@@ -14,7 +14,12 @@ resources:
   - mariadb_pv.yaml
   - solr_pv.yaml
   - drupal-local-service.yaml
-  
+  - minio_pv.yaml
+  - resources/secrets.yaml
+
+patchesStrategicMerge:
+  - patches/shared_config-patch.yaml
+
 namespace: windev
 
 
