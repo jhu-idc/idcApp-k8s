@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shared
+data:
+# S3 configuration options for default site
+  drupal.default.s3_use_customhost: "true"
+  drupal.default.s3_hostname: "minio-service:9000"
+  drupal.default.s3_use_cname: "false"
+  drupal.default.s3_use_path_style_endpoint: "true"
+  drupal.default.s3_private_path: "pr"

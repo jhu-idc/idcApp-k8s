@@ -15,5 +15,6 @@ resources:
   - ldap_service.yaml
   - mariadb_secrets.yaml
   - mariadb_pvc.yaml
+  - minio-pvc.yaml
   - saml-secret.yaml
   - solr-pvc.yaml

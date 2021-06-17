@@ -5,6 +5,7 @@ bases:
   - ../../../../base
   - ../../definitions/resources/
 
+
 resources:
   - namespace.yaml
   - activemq-volume.yaml
@@ -13,6 +14,9 @@ resources:
   - etcd-pv.yaml
   - drupal_pv.yaml
   - solr_pv.yaml
-
+  - minio_pv.yaml
+  - resources/secrets.yaml
   
+patchesStrategicMerge:
+   - patches/shared_config-patch.yaml
 namespace: linuxdev

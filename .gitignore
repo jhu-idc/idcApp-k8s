@@ -14,3 +14,4 @@ overlays/aws/base/idc-debug.yaml
 overlays/aws/definitions/*/resources/saml-secret.yaml
 overlays/aws/definitions/*/resources/saml-secrets.json
 overlays/aws/definitions/*/patches/drupal-s3-env-patch.yaml
+overlays/development/definitions/linux/resources/secrets.yaml
