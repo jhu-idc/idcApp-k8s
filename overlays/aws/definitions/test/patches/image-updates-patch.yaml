@@ -1,0 +1,134 @@
+# This file can be used to patch different image updates (ie, tags and whatnot)
+# into the application to run a different version that what is on the base
+# 
+# This file is purposefully big and most things are commented out on purpose.
+# This will take precedence over the stuff in the base dir.  Uncomment and 
+# update the image: line to use a different image.
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: activemq
+# spec:
+#   template:
+#     spec:
+#       containers:
+#         - name: activemq
+#           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/activemq:upstream-20200824-f8d1e8e-27-g6cd914d
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   labels:
+#     app: alpaca
+#   name: alpaca
+# spec:
+#   template:
+#     spec:
+#       containers:
+#         - name: alpaca
+#           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/alpaca:upstream-20200824-f8d1e8e-27-g6cd914d
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: cantaloupe
+#   labels:
+#     app: cantaloupe
+# spec:
+#   template:
+#     spec:
+#       containers:
+#         - name: cantaloupe
+#           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/cantaloupe:upstream-20200824-f8d1e8e-27-g6cd914d
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: crayfits
+#   labels:
+#     app: crayfits
+# spec:
+#   template:
+#     spec:
+#       containers:
+#         - name: crayfits
+#           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/crayfits:upstream-20200824-f8d1e8e-27-g6cd914d
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: drupal
+#   labels:
+#     app: drupal
+# spec:
+#   template:
+#     spec:
+#       containers:
+#         - name: drupal
+#           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:e0961f7
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: fits
+#   labels:
+#     app: fits
+# spec:
+#   template:
+#     spec:
+#       containers:
+#         - name: fits
+#           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/fits:upstream-20200824-f8d1e8e-27-g6cd914d
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: homarus
+#   labels:
+#     app: homarus
+# spec:
+#   template:
+#     spec:
+#       containers:
+#         - name: homarus
+#           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/homarus:upstream-20200824-f8d1e8e-27-g6cd914d
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   labels:
+#     app: houdini
+#   name: houdini
+# spec:
+#   template:
+#     spec:
+#       containers:
+#         - name: houdini
+#           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/houdini:upstream-20200824-f8d1e8e-27-g6cd914d
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   labels:
+#     app: hypercube
+#   name: hypercube
+# spec:
+#   template:
+#     spec:
+#       containers:
+#       - name: hypercube
+#         image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/hypercube:upstream-20200824-f8d1e8e-27-g6cd914d
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   labels:
+#     app: solr
+#   name: solr
+# spec:
+#   template:
+#     spec:
+#       containers:
+#       - name: solr
+#         image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/solr:upstream-20200824-f8d1e8e-27-g6cd914d
+        

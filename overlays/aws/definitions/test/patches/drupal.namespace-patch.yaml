@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: shared
-data:
-  drupal.default.site_url: "https://test.digital.library.jhu.edu"
-  

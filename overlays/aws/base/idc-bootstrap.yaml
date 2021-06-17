@@ -21,10 +21,10 @@ spec:
         command: ["/bin/sh"]
         args: ["-c","for i in `ls /mnt/`; do aws s3 cp --recursive s3://idc-init/idc/$i/ /mnt/$i; done;"]
         volumeMounts:
-          - mountPath: /mnt/mariadb-files
+          - mountPath: /mnt/mariadb-dump
             name: mariadb-files
-          - mountPath: /mnt/solr-data
+          - mountPath: /mnt/solr
             name: solr-data
-          - mountPath: /mnt/drupal-data
+          - mountPath: /mnt/drupal
             name: drupal-data
       restartPolicy: Never

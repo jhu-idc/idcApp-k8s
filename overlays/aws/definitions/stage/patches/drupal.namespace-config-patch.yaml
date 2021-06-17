@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shared
+data:
+  drupal.default.site_url: "https://stage.digital.library.jhu.edu"
+  drupal.default.cantaloupe.url: https://stage.digital.library.jhu.edu/cantaloupe/iiif/2

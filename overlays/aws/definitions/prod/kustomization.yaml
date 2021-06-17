@@ -2,15 +2,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 bases:
-  - ../../../base
-  - ../base
+  - ../../../../base
+  - ../../base
 resources:
   - namespace.yaml
   - resources/
   - volumes/
 
 patchesStrategicMerge:
-  - resources/drupal_service_patch.yaml
+  - patches/drupal-service-patch.yaml
   - patches/secret-drupal-root_password-patch.yaml
   - patches/shared-shared-db.host-patch.yaml
   - patches/shared-shared-db.name-patch.yaml
@@ -18,6 +18,9 @@ patchesStrategicMerge:
   - patches/shared-shared-db.rootUser-patch.yaml
   - patches/shared-shared-drupal.default.db_user-patch.yaml ##XXX REMOVE THIS FOR PRODUCTION OR CHANGE USERNAME!!
   - patches/secret-drupal-user_password-patch.yaml ## XXX REMOVE THIS FOR PRODUCTION OR CHANGE THE PASS!!
-
-
+  - patches/mariadb-deployment-replica-patch.yaml
+  - patches/drupal.sp-patch.yaml
+  - patches/drupal.namespace-config-patch.yaml
+  - patches/reverseproxy-service-ssl-patch.yaml
+  - patches/drupal-s3-env-patch.yaml
 namespace: prod

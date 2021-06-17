@@ -15,13 +15,13 @@ spec:
         app: hypercube
     spec:
       containers:
-      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/hypercube:upstream-20200824-f8d1e8e-23-g9fe79fc
+      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/hypercube:upstream-20200824-f8d1e8e-27-g6cd914d
         name: hypercube
         env:
           - name: HYPERCUBE_JWT_PUBLIC_KEY
             valueFrom:
               secretKeyRef:
-                name: drupal
+                name: drupal-sealed
                 key: jwt_public_key
-          - name: HYPERCUBE_JHT_ADMIN
+          - name: HYPERCUBE_JWT_ADMIN
             value: islandora

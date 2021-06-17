@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shared
+data:
+  drupal.sp.entityid: "https://sandbox.digital.library.jhu.edu/shibboleth"
+  drupal.sp.baseurl: "https://sandbox.digital.library.jhu.edu/"
+  drupal.sp.techemail: "lm-sysadmins@lists.johnshopkins.edu"
+  drupal.sp.techname: "Library Ops"
+  drupal.idp.entityid: "https://idp.jh.edu/idp/shibboleth"
+  drupal.idp.baseurl: "https://idp.jh.edu"

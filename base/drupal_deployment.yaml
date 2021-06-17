@@ -54,10 +54,25 @@ spec:
    
       containers:
         - name: drupal
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 5            
           #image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
           #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:ca29a84
           #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:fb1c58e
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:upstream-20201007-739693ae-290-gda87f78
+          #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:upstream-20201007-739693ae-290-gda87f78
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:53e3dcf
 
           imagePullPolicy: Always
           env:
@@ -149,12 +164,12 @@ spec:
             - name: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: drupal
+                  name: drupal-sealed
                   key: def_acct_pass
             - name: DRUPAL_DEFAULT_SALT
               valueFrom:
                 secretKeyRef:
-                  name: drupal
+                  name: drupal-sealed
                   key: default_salt
               #value: 9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg
             - name: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
@@ -165,12 +180,12 @@ spec:
             - name: DRUPAL_JWT_PRIVATE_KEY
               valueFrom:
                 secretKeyRef:
-                  name: drupal
+                  name: drupal-sealed
                   key: jwt_private_key
             - name: DRUPAL_JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
-                  name: drupal
+                  name: drupal-sealed
                   key: jwt_public_key
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -298,11 +313,11 @@ spec:
                   key: drupal.default.s3_use_path_style_endpoint
 # End: S3 config                  
 # Begin: Review and remove if not needed
-            - name: DEFAULT_SOLR_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: solr.host
+            # - name: DEFAULT_SOLR_HOST
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: shared
+            #       key: solr.host
             - name: DRUPAL_DEFAULT_EMAIL
               valueFrom:
                 configMapKeyRef:
@@ -332,12 +347,17 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: cantaloupe.url
-            - name: SOLR_CORE
+            - name: DRUPAL_DEFAULT_SOLR_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: solr.host
+            - name: DRUPAL_DEFAULT_SOLR_CORE
               valueFrom:
                 configMapKeyRef:
                   name: shared
                   key: solr.core
-            - name: SOLR_PORT
+            - name: DRUPAL_DEFAULT_SOLR_PORT
               valueFrom:
                 configMapKeyRef:
                   name: shared

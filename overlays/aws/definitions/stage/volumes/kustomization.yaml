@@ -8,7 +8,6 @@ resources:
   - drupal-data
   - etcd-data
   - mariadb-files
-  - mariadb-data
   - solr-data
 
 
