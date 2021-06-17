@@ -28,7 +28,6 @@ kubectl create secret generic -n $NAMESPACE drupal-sealed --dry-run=client -o ya
 	--from-file=default_salt=./salt.txt \
 	--from-file=jwt_private_key=./jwtRS256.key \
 	--from-file=jwt_public_key=./jwtRS256.key.pub \
-	--from-file=
 	--from-literal=def_acct_pass=bW9v > secrets.yaml
 
 
