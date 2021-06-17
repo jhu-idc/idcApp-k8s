@@ -17,11 +17,6 @@ echo -e "\tGenerating salt..."
 # generate random salt and encode it.
 cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1 > salt.txt
 
-# we need an MINIO Access and Secret key
-cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1 > minio_access.txt
-cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1 > minio_secret.txt
-
-
 echo -e "\tCreating generic secrets.yaml"
 # generate the secrets.yaml
 kubectl create secret generic -n $NAMESPACE drupal-sealed --dry-run=client -o yaml \
