@@ -15,7 +15,7 @@ spec:
         app: hypercube
     spec:
       containers:
-      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/hypercube:upstream-20200824-f8d1e8e-27-g6cd914d
+      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/hypercube:upstream-20200824-f8d1e8e-40-g5d937d0
         name: hypercube
         env:
           - name: HYPERCUBE_JWT_PUBLIC_KEY
