@@ -5,11 +5,11 @@ Base application repository for the iDC kubernetes project.
 
 1. Extract snapshot content into a tar file.  Currently, idcApp-k8s does not have a convenient way of handling snapshots, so this must be handled manually.
 
-   a. Identify a snapshot image to extract.  Copy the latest image tag from [the github package registry](https://github.com/orgs/jhu-sheridan-libraries/packages/container/package/idc-isle-dc%2Fsnapshot), or look in `idc-isle-dc/.env`.  For example, `ghcr.io/jhu-sheridan-libraries/idc-isle-dc/snapshot:upstream-20201007-739693ae-213-g3669e99.1616768917`.
+   a. Identify a snapshot image to extract.  Copy the latest image tag from [the github package registry](https://github.com/orgs/jhu-sheridan-libraries/packages/container/package/idc-isle-dc%2Fsnapshot), or look in `idc-isle-dc/.env`.  For example, `ghcr.io/jhu-sheridan-libraries/idc-isle-dc/snapshot:snapshot:upstream-20201007-739693ae-311-g8321b65.1623419037`.
 
    b. Extract a tar file from the snapshot image via `snapshot=$(docker create <IMAGE>); docker export $snapshot > data.tar`.  For example,
      <pre>
-      snapshot=$(docker create ghcr.io/jhu-sheridan-libraries/idc-isle-dc/snapshot:upstream-20201007-739693ae-213-g3669e99.1616768917); \
+      snapshot=$(docker create ghcr.io/jhu-sheridan-libraries/idc-isle-dc/snapshot:snapshot:upstream-20201007-739693ae-311-g8321b65.1623419037); \
       docker export $snapshot > data.tar
      </pre>
 
@@ -21,7 +21,9 @@ Base application repository for the iDC kubernetes project.
 
    c. Mac:  ??
 
-1. `cd` into the overlays/development/&lt;PLATFORM&gt; directory for your platform.
+1.  Execute overlays/development/definitions/&lt;PLATFORM&gt;/resources/generate_secrets.sh for your platform to generate secrets (you only need to do this once)
+
+1. `cd` into the overlays/development/deployment/&lt;PLATFORM&gt; directory for your platform.
 
 1. Run `kubectl kustomize . | kubectl apply -f -` to start the stack!
 
