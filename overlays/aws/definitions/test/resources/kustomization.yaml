@@ -11,6 +11,6 @@ resources:
   # - ldap_deployment.yaml
   # - ldap_service.yaml
   - saml-secrets-sealed.yaml
-  - reverseproxy.yaml
+  #- reverseproxy.yaml
   - reverseproxy-configmap.yaml
-  - reverseproxy-service.yaml
+  #- reverseproxy-service.yaml

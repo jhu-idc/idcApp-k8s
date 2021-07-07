@@ -18,3 +18,5 @@ resources:
   - minio-pvc.yaml
   - saml-secret.yaml
   - solr-pvc.yaml
+  - reverseproxy-configmap.yaml
+  
