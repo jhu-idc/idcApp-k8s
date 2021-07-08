@@ -12,7 +12,8 @@ data:
            fallthrough in-addr.arpa ip6.arpa
            ttl 30
         }
-        rewrite name exact islandora-idc.traefik.me drupal-service.windev.svc.cluster.local
+        #rewrite name exact islandora-idc.traefik.me drupal-service
+        rewrite name exact islandora-idc.traefik.me reverseproxy-service.linuxdev.svc.cluster.local
         prometheus :9153
         forward . /etc/resolv.conf {
            max_concurrent 1000
