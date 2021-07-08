@@ -18,6 +18,7 @@ data:
   drupal.default.db_driver: mysql
   drupal.default.db_host: mariadb-idc.traefik.me
   drupal.default.db_port: "3306"
+  drupal.default.db_user: "root" # XXX: BAD REMOVE FOR PROD
   drupal.default.install_existing_config: "true"
   drupal.default.profile: standard
   drupal.default.site_url: http://islandora-idc.traefik.me
@@ -82,6 +83,7 @@ data:
   drupal.default.s3_hostname: ""
   drupal.default.s3_use_cname: "false"
   drupal.default.s3_use_path_style_endpoint: ""
+  drupal.default.s3_private_path: ""
 
   
   activemq.host: activemq-service

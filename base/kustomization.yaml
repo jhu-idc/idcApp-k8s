@@ -25,3 +25,5 @@ resources:
   - shared_configmap.yaml
   - solr_deployment.yaml
   - solr_service.yaml
+  - minio_deployment.yaml
+  - minio_service.yaml
