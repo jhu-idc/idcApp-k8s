@@ -19,6 +19,11 @@ spec:
       - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/solr:upstream-20200824-f8d1e8e-27-g6cd914d
         name: solr
         imagePullPolicy: Always
+        resources:
+            requests:
+              memory: 800Mi
+            limits:
+              memory: 1024Mi  
         volumeMounts:
           - mountPath: /opt/solr/server/solr
             name: solr-data

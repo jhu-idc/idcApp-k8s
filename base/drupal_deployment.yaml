@@ -73,7 +73,11 @@ spec:
           #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:fb1c58e
           #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:upstream-20201007-739693ae-290-gda87f78
           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:53e3dcf
-
+          resources:
+            requests:
+              memory: 200Mi
+            limits:
+              memory: 400Mi
           imagePullPolicy: Always
           env:
 
