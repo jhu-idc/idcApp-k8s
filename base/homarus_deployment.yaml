@@ -18,6 +18,11 @@ spec:
         - name: homarus
           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/homarus:upstream-20200824-f8d1e8e-27-g6cd914d
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 100Mi
+            limits:
+              memory: 200Mi          
           env:
             - name: HOMARUS_JWT_PUBLIC_KEY
               valueFrom:
