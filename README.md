@@ -21,7 +21,7 @@ Base application repository for the iDC kubernetes project.
 
    c. Mac:  ??
 
-1. `cd` into the overlays/development/&lt;PLATFORM&gt; directory for your platform.
+1. `cd` into the overlays/development/deployment/&lt;PLATFORM&gt; directory for your platform.
 
 1. Run `kubectl kustomize . | kubectl apply -f -` to start the stack!
 
