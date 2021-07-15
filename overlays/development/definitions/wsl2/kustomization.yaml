@@ -19,7 +19,8 @@ resources:
 
 patchesStrategicMerge:
   - patches/shared_config-patch.yaml
-
+  - patches/reverseproxy-service-patch.yaml
+  - patches/reverseproxy-patch.yaml
 namespace: windev
 
 

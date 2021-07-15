@@ -27,3 +27,6 @@ resources:
   - solr_service.yaml
   - minio_deployment.yaml
   - minio_service.yaml
+  #- reverseproxy-configmap.yaml
+  - reverseproxy-service.yaml
+  - reverseproxy.yaml

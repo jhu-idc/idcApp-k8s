@@ -1,0 +1,744 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: reverseproxy
+data:
+  httpd.conf: |
+
+    #
+    # This is the main Apache HTTP server configuration file.  It contains the
+    # configuration directives that give the server its instructions.
+    # See <URL:http://httpd.apache.org/docs/2.4/> for detailed information.
+    # In particular, see 
+    # <URL:http://httpd.apache.org/docs/2.4/mod/directives.html>
+    # for a discussion of each configuration directive.
+    #
+    # Do NOT simply read the instructions in here without understanding
+    # what they do.  They're here only as hints or reminders.  If you are unsure
+    # consult the online docs. You have been warned.  
+    #
+    # Configuration and logfile names: If the filenames you specify for many
+    # of the server's control files begin with "/" (or "drive:/" for Win32), the
+    # server will use that explicit path.  If the filenames do *not* begin
+    # with "/", the value of ServerRoot is prepended -- so "logs/access_log"
+    # with ServerRoot set to "/usr/local/apache2" will be interpreted by the
+    # server as "/usr/local/apache2/logs/access_log", whereas "/logs/access_log" 
+    # will be interpreted as '/logs/access_log'.
+
+    #
+    # ServerRoot: The top of the directory tree under which the server's
+    # configuration, error, and log files are kept.
+    #
+    # Do not add a slash at the end of the directory path.  If you point
+    # ServerRoot at a non-local disk, be sure to specify a local disk on the
+    # Mutex directive, if file-based mutexes are used.  If you wish to share the
+    # same ServerRoot for multiple httpd daemons, you will need to change at
+    # least PidFile.
+    #
+    ServerRoot "/usr/local/apache2"
+
+    #
+    # Mutex: Allows you to set the mutex mechanism and mutex file directory
+    # for individual mutexes, or change the global defaults
+    #
+    # Uncomment and change the directory if mutexes are file-based and the default
+    # mutex file directory is not on a local disk or is not appropriate for some
+    # other reason.
+    #
+    # Mutex default:logs
+
+    #
+    # Listen: Allows you to bind Apache to specific IP addresses and/or
+    # ports, instead of the default. See also the <VirtualHost>
+    # directive.
+    #
+    # Change this to Listen on specific IP addresses as shown below to 
+    # prevent Apache from glomming onto all bound IP addresses.
+    #
+    #Listen 12.34.56.78:80
+    Listen 80
+    Listen 4015
+
+    #
+    # Dynamic Shared Object (DSO) Support
+    #
+    # To be able to use the functionality of a module which was built as a DSO you
+    # have to place corresponding `LoadModule' lines at this location so the
+    # directives contained in it are actually available _before_ they are used.
+    # Statically compiled modules (those listed by `httpd -l') do not need
+    # to be loaded here.
+    #
+    # Example:
+    # LoadModule foo_module modules/mod_foo.so
+    #
+    LoadModule mpm_event_module modules/mod_mpm_event.so
+    #LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
+    #LoadModule mpm_worker_module modules/mod_mpm_worker.so
+    LoadModule authn_file_module modules/mod_authn_file.so
+    #LoadModule authn_dbm_module modules/mod_authn_dbm.so
+    #LoadModule authn_anon_module modules/mod_authn_anon.so
+    #LoadModule authn_dbd_module modules/mod_authn_dbd.so
+    #LoadModule authn_socache_module modules/mod_authn_socache.so
+    LoadModule authn_core_module modules/mod_authn_core.so
+    LoadModule authz_host_module modules/mod_authz_host.so
+    LoadModule authz_groupfile_module modules/mod_authz_groupfile.so
+    LoadModule authz_user_module modules/mod_authz_user.so
+    #LoadModule authz_dbm_module modules/mod_authz_dbm.so
+    #LoadModule authz_owner_module modules/mod_authz_owner.so
+    #LoadModule authz_dbd_module modules/mod_authz_dbd.so
+    LoadModule authz_core_module modules/mod_authz_core.so
+    #LoadModule authnz_ldap_module modules/mod_authnz_ldap.so
+    #LoadModule authnz_fcgi_module modules/mod_authnz_fcgi.so
+    LoadModule access_compat_module modules/mod_access_compat.so
+    LoadModule auth_basic_module modules/mod_auth_basic.so
+    #LoadModule auth_form_module modules/mod_auth_form.so
+    #LoadModule auth_digest_module modules/mod_auth_digest.so
+    #LoadModule allowmethods_module modules/mod_allowmethods.so
+    #LoadModule isapi_module modules/mod_isapi.so
+    #LoadModule file_cache_module modules/mod_file_cache.so
+    #LoadModule cache_module modules/mod_cache.so
+    #LoadModule cache_disk_module modules/mod_cache_disk.so
+    #LoadModule cache_socache_module modules/mod_cache_socache.so
+    LoadModule socache_shmcb_module modules/mod_socache_shmcb.so
+    #LoadModule socache_dbm_module modules/mod_socache_dbm.so
+    #LoadModule socache_memcache_module modules/mod_socache_memcache.so
+    #LoadModule socache_redis_module modules/mod_socache_redis.so
+    #LoadModule watchdog_module modules/mod_watchdog.so
+    #LoadModule macro_module modules/mod_macro.so
+    #LoadModule dbd_module modules/mod_dbd.so
+    #LoadModule bucketeer_module modules/mod_bucketeer.so
+    #LoadModule dumpio_module modules/mod_dumpio.so
+    #LoadModule echo_module modules/mod_echo.so
+    #LoadModule example_hooks_module modules/mod_example_hooks.so
+    #LoadModule case_filter_module modules/mod_case_filter.so
+    #LoadModule case_filter_in_module modules/mod_case_filter_in.so
+    #LoadModule example_ipc_module modules/mod_example_ipc.so
+    #LoadModule buffer_module modules/mod_buffer.so
+    #LoadModule data_module modules/mod_data.so
+    #LoadModule ratelimit_module modules/mod_ratelimit.so
+    LoadModule reqtimeout_module modules/mod_reqtimeout.so
+    #LoadModule ext_filter_module modules/mod_ext_filter.so
+    #LoadModule request_module modules/mod_request.so
+    #LoadModule include_module modules/mod_include.so
+    LoadModule filter_module modules/mod_filter.so
+    #LoadModule reflector_module modules/mod_reflector.so
+    #LoadModule substitute_module modules/mod_substitute.so
+    #LoadModule sed_module modules/mod_sed.so
+    #LoadModule charset_lite_module modules/mod_charset_lite.so
+    #LoadModule deflate_module modules/mod_deflate.so
+    #LoadModule xml2enc_module modules/mod_xml2enc.so
+    #LoadModule proxy_html_module modules/mod_proxy_html.so
+    #LoadModule brotli_module modules/mod_brotli.so
+    LoadModule mime_module modules/mod_mime.so
+    #LoadModule ldap_module modules/mod_ldap.so
+    LoadModule log_config_module modules/mod_log_config.so
+    #LoadModule log_debug_module modules/mod_log_debug.so
+    #LoadModule log_forensic_module modules/mod_log_forensic.so
+    #LoadModule logio_module modules/mod_logio.so
+    #LoadModule lua_module modules/mod_lua.so
+    LoadModule env_module modules/mod_env.so
+    #LoadModule mime_magic_module modules/mod_mime_magic.so
+    #LoadModule cern_meta_module modules/mod_cern_meta.so
+    #LoadModule expires_module modules/mod_expires.so
+    LoadModule headers_module modules/mod_headers.so
+    #LoadModule ident_module modules/mod_ident.so
+    #LoadModule usertrack_module modules/mod_usertrack.so
+    #LoadModule unique_id_module modules/mod_unique_id.so
+    LoadModule setenvif_module modules/mod_setenvif.so
+    #LoadModule version_module modules/mod_version.so
+    #LoadModule remoteip_module modules/mod_remoteip.so
+    LoadModule proxy_module modules/mod_proxy.so
+    LoadModule proxy_connect_module modules/mod_proxy_connect.so
+    #LoadModule proxy_ftp_module modules/mod_proxy_ftp.so
+    LoadModule proxy_http_module modules/mod_proxy_http.so
+    #LoadModule proxy_fcgi_module modules/mod_proxy_fcgi.so
+    #LoadModule proxy_scgi_module modules/mod_proxy_scgi.so
+    #LoadModule proxy_uwsgi_module modules/mod_proxy_uwsgi.so
+    #LoadModule proxy_fdpass_module modules/mod_proxy_fdpass.so
+    #LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
+    #LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+    #LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+    #LoadModule proxy_express_module modules/mod_proxy_express.so
+    #LoadModule proxy_hcheck_module modules/mod_proxy_hcheck.so
+    #LoadModule session_module modules/mod_session.so
+    #LoadModule session_cookie_module modules/mod_session_cookie.so
+    #LoadModule session_crypto_module modules/mod_session_crypto.so
+    #LoadModule session_dbd_module modules/mod_session_dbd.so
+    #LoadModule slotmem_shm_module modules/mod_slotmem_shm.so
+    #LoadModule slotmem_plain_module modules/mod_slotmem_plain.so
+    LoadModule ssl_module modules/mod_ssl.so
+    #LoadModule optional_hook_export_module modules/mod_optional_hook_export.so
+    #LoadModule optional_hook_import_module modules/mod_optional_hook_import.so
+    #LoadModule optional_fn_import_module modules/mod_optional_fn_import.so
+    #LoadModule optional_fn_export_module modules/mod_optional_fn_export.so
+    #LoadModule dialup_module modules/mod_dialup.so
+    #LoadModule http2_module modules/mod_http2.so
+    #LoadModule proxy_http2_module modules/mod_proxy_http2.so
+    #LoadModule md_module modules/mod_md.so
+    #LoadModule lbmethod_byrequests_module modules/mod_lbmethod_byrequests.so
+    #LoadModule lbmethod_bytraffic_module modules/mod_lbmethod_bytraffic.so
+    #LoadModule lbmethod_bybusyness_module modules/mod_lbmethod_bybusyness.so
+    #LoadModule lbmethod_heartbeat_module modules/mod_lbmethod_heartbeat.so
+    LoadModule unixd_module modules/mod_unixd.so
+    #LoadModule heartbeat_module modules/mod_heartbeat.so
+    #LoadModule heartmonitor_module modules/mod_heartmonitor.so
+    #LoadModule dav_module modules/mod_dav.so
+    #LoadModule status_module modules/mod_status.so
+    #LoadModule autoindex_module modules/mod_autoindex.so
+    #LoadModule asis_module modules/mod_asis.so
+    #LoadModule info_module modules/mod_info.so
+    #LoadModule suexec_module modules/mod_suexec.so
+    <IfModule !mpm_prefork_module>
+            #LoadModule cgid_module modules/mod_cgid.so
+    </IfModule>
+    <IfModule mpm_prefork_module>
+            #LoadModule cgi_module modules/mod_cgi.so
+    </IfModule>
+    #LoadModule dav_fs_module modules/mod_dav_fs.so
+    #LoadModule dav_lock_module modules/mod_dav_lock.so
+    #LoadModule vhost_alias_module modules/mod_vhost_alias.so
+    #LoadModule negotiation_module modules/mod_negotiation.so
+    LoadModule dir_module modules/mod_dir.so
+    #LoadModule imagemap_module modules/mod_imagemap.so
+    #LoadModule actions_module modules/mod_actions.so
+    #LoadModule speling_module modules/mod_speling.so
+    #LoadModule userdir_module modules/mod_userdir.so
+    LoadModule alias_module modules/mod_alias.so
+    LoadModule rewrite_module modules/mod_rewrite.so
+
+    <IfModule unixd_module>
+    #
+    # If you wish httpd to run as a different user or group, you must run
+    # httpd as root initially and it will switch.  
+    #
+    # User/Group: The name (or #number) of the user/group to run httpd as.
+    # It is usually good practice to create a dedicated user and group for
+    # running httpd, as with most system services.
+    #
+    User daemon
+    Group daemon
+
+    </IfModule>
+
+    # 'Main' server configuration
+    #
+    # The directives in this section set up the values used by the 'main'
+    # server, which responds to any requests that aren't handled by a
+    # <VirtualHost> definition.  These values also provide defaults for
+    # any <VirtualHost> containers you may define later in the file.
+    #
+    # All of these directives may appear inside <VirtualHost> containers,
+    # in which case these default settings will be overridden for the
+    # virtual host being defined.
+    #
+
+    #
+    # ServerAdmin: Your address, where problems with the server should be
+    # e-mailed.  This address appears on some server-generated pages, such
+    # as error documents.  e.g. admin@your-domain.com
+    #
+    ServerAdmin you@example.com
+
+    #
+    # ServerName gives the name and port that the server uses to identify itself.
+    # This can often be determined automatically, but we recommend you specify
+    # it explicitly to prevent problems during startup.
+    #
+    # If your host doesn't have a registered DNS name, enter its IP address here.
+    #
+    #ServerName www.example.com:80
+
+    #
+    # Deny access to the entirety of your server's filesystem. You must
+    # explicitly permit access to web content directories in other 
+    # <Directory> blocks below.
+    #
+    <Directory />
+        AllowOverride none
+        Require all denied
+    </Directory>
+
+    #
+    # Note that from this point forward you must specifically allow
+    # particular features to be enabled - so if something's not working as
+    # you might expect, make sure that you have specifically enabled it
+    # below.
+    #
+
+    #
+    # DocumentRoot: The directory out of which you will serve your
+    # documents. By default, all requests are taken from this directory, but
+    # symbolic links and aliases may be used to point to other locations.
+    #
+    DocumentRoot "/usr/local/apache2/htdocs"
+    <Directory "/usr/local/apache2/htdocs">
+        #
+        # Possible values for the Options directive are "None", "All",
+        # or any combination of:
+        #   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
+        #
+        # Note that "MultiViews" must be named *explicitly* --- "Options All"
+        # doesn't give it to you.
+        #
+        # The Options directive is both complicated and important.  Please see
+        # http://httpd.apache.org/docs/2.4/mod/core.html#options
+        # for more information.
+        #
+        Options Indexes FollowSymLinks
+
+        #
+        # AllowOverride controls what directives may be placed in .htaccess files.
+        # It can be "All", "None", or any combination of the keywords:
+        #   AllowOverride FileInfo AuthConfig Limit
+        #
+        AllowOverride None
+
+        #
+        # Controls who can get stuff from this server.
+        #
+        Require all granted
+    </Directory>
+
+    #
+    # DirectoryIndex: sets the file that Apache will serve if a directory
+    # is requested.
+    #
+    <IfModule dir_module>
+        DirectoryIndex index.html
+    </IfModule>
+
+    #
+    # The following lines prevent .htaccess and .htpasswd files from being 
+    # viewed by Web clients. 
+    #
+    <Files ".ht*">
+        Require all denied
+    </Files>
+
+    #
+    # ErrorLog: The location of the error log file.
+    # If you do not specify an ErrorLog directive within a <VirtualHost>
+    # container, error messages relating to that virtual host will be
+    # logged here.  If you *do* define an error logfile for a <VirtualHost>
+    # container, that host's errors will be logged there and not here.
+    #
+    ErrorLog /proc/self/fd/2
+
+    #
+    # LogLevel: Control the number of messages logged to the error_log.
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    #
+    LogLevel warn
+
+    <IfModule log_config_module>
+        #
+        # The following directives define some format nicknames for use with
+        # a CustomLog directive (see below).
+        #
+        LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+        LogFormat "%h %l %u %t \"%r\" %>s %b" common
+
+        <IfModule logio_module>
+          # You need to enable mod_logio.c to use %I and %O
+          LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O" combinedio
+        </IfModule>
+
+        #
+        # The location and format of the access logfile (Common Logfile Format).
+        # If you do not define any access logfiles within a <VirtualHost>
+        # container, they will be logged here.  Contrariwise, if you *do*
+        # define per-<VirtualHost> access logfiles, transactions will be
+        # logged therein and *not* in this file.
+        #
+        CustomLog /proc/self/fd/1 common
+
+        #
+        # If you prefer a logfile with access, agent, and referer information
+        # (Combined Logfile Format) you can use the following directive.
+        #
+        #CustomLog "logs/access_log" combined
+    </IfModule>
+
+    <IfModule alias_module>
+        #
+        # Redirect: Allows you to tell clients about documents that used to 
+        # exist in your server's namespace, but do not anymore. The client 
+        # will make a new request for the document at its new location.
+        # Example:
+        # Redirect permanent /foo http://www.example.com/bar
+
+        #
+        # Alias: Maps web paths into filesystem paths and is used to
+        # access content that does not live under the DocumentRoot.
+        # Example:
+        # Alias /webpath /full/filesystem/path
+        #
+        # If you include a trailing / on /webpath then the server will
+        # require it to be present in the URL.  You will also likely
+        # need to provide a <Directory> section to allow access to
+        # the filesystem path.
+
+        #
+        # ScriptAlias: This controls which directories contain server scripts. 
+        # ScriptAliases are essentially the same as Aliases, except that
+        # documents in the target directory are treated as applications and
+        # run by the server when requested rather than as documents sent to the
+        # client.  The same rules about trailing "/" apply to ScriptAlias
+        # directives as to Alias.
+        #
+        ScriptAlias /cgi-bin/ "/usr/local/apache2/cgi-bin/"
+
+    </IfModule>
+
+    <IfModule cgid_module>
+        #
+        # ScriptSock: On threaded servers, designate the path to the UNIX
+        # socket used to communicate with the CGI daemon of mod_cgid.
+        #
+        #Scriptsock cgisock
+    </IfModule>
+
+    #
+    # "/usr/local/apache2/cgi-bin" should be changed to whatever your ScriptAliased
+    # CGI directory exists, if you have that configured.
+    #
+    <Directory "/usr/local/apache2/cgi-bin">
+        AllowOverride None
+        Options None
+        Require all granted
+    </Directory>
+
+    <IfModule headers_module>
+        #
+        # Avoid passing HTTP_PROXY environment to CGI's on this or any proxied
+        # backend servers which have lingering "httpoxy" defects.
+        # 'Proxy' request header is undefined by the IETF, not listed by IANA
+        #
+        RequestHeader unset Proxy early
+    </IfModule>
+
+    <IfModule mime_module>
+        #
+        # TypesConfig points to the file containing the list of mappings from
+        # filename extension to MIME-type.
+        #
+        TypesConfig conf/mime.types
+
+        #
+        # AddType allows you to add to or override the MIME configuration
+        # file specified in TypesConfig for specific file types.
+        #
+        #AddType application/x-gzip .tgz
+        #
+        # AddEncoding allows you to have certain browsers uncompress
+        # information on the fly. Note: Not all browsers support this.
+        #
+        #AddEncoding x-compress .Z
+        #AddEncoding x-gzip .gz .tgz
+        #
+        # If the AddEncoding directives above are commented-out, then you
+        # probably should define those extensions to indicate media types:
+        #
+        AddType application/x-compress .Z
+        AddType application/x-gzip .gz .tgz
+
+        #
+        # AddHandler allows you to map certain file extensions to "handlers":
+        # actions unrelated to filetype. These can be either built into the server
+        # or added with the Action directive (see below)
+        #
+        # To use CGI scripts outside of ScriptAliased directories:
+        # (You will also need to add "ExecCGI" to the "Options" directive.)
+        #
+        #AddHandler cgi-script .cgi
+
+        # For type maps (negotiated resources):
+        #AddHandler type-map var
+
+        #
+        # Filters allow you to process content before it is sent to the client.
+        #
+        # To parse .shtml files for server-side includes (SSI):
+        # (You will also need to add "Includes" to the "Options" directive.)
+        #
+        #AddType text/html .shtml
+        #AddOutputFilter INCLUDES .shtml
+    </IfModule>
+
+    #
+    # The mod_mime_magic module allows the server to use various hints from the
+    # contents of the file itself to determine its type.  The MIMEMagicFile
+    # directive tells the module where the hint definitions are located.
+    #
+    #MIMEMagicFile conf/magic
+
+    #
+    # Customizable error responses come in three flavors:
+    # 1) plain text 2) local redirects 3) external redirects
+    #
+    # Some examples:
+    #ErrorDocument 500 "The server made a boo boo."
+    #ErrorDocument 404 /missing.html
+    #ErrorDocument 404 "/cgi-bin/missing_handler.pl"
+    #ErrorDocument 402 http://www.example.com/subscription_info.html
+    #
+
+    #
+    # MaxRanges: Maximum number of Ranges in a request before
+    # returning the entire resource, or one of the special
+    # values 'default', 'none' or 'unlimited'.
+    # Default setting is to accept 200 Ranges.
+    #MaxRanges unlimited
+
+    #
+    # EnableMMAP and EnableSendfile: On systems that support it, 
+    # memory-mapping or the sendfile syscall may be used to deliver
+    # files.  This usually improves server performance, but must
+    # be turned off when serving from networked-mounted 
+    # filesystems or if support for these functions is otherwise
+    # broken on your system.
+    # Defaults: EnableMMAP On, EnableSendfile Off
+    #
+    #EnableMMAP off
+    #EnableSendfile on
+
+    # Supplemental configuration
+    #
+    # The configuration files in the conf/extra/ directory can be 
+    # included to add extra features or to modify the default configuration of 
+    # the server, or you may simply copy their contents here and change as 
+    # necessary.
+
+    # Server-pool management (MPM specific)
+    #Include conf/extra/httpd-mpm.conf
+
+    # Multi-language error messages
+    #Include conf/extra/httpd-multilang-errordoc.conf
+
+    # Fancy directory listings
+    #Include conf/extra/httpd-autoindex.conf
+
+    # Language settings
+    #Include conf/extra/httpd-languages.conf
+
+    # User home directories
+    #Include conf/extra/httpd-userdir.conf
+
+    # Real-time info on requests and configuration
+    #Include conf/extra/httpd-info.conf
+
+    # Virtual hosts
+    Include conf/extra/httpd-vhosts.conf
+
+    # Local access to the Apache HTTP Server Manual
+    #Include conf/extra/httpd-manual.conf
+
+    # Distributed authoring and versioning (WebDAV)
+    #Include conf/extra/httpd-dav.conf
+
+    # Various default settings
+    #Include conf/extra/httpd-default.conf
+
+    # Configure mod_proxy_html to understand HTML4/XHTML1
+    <IfModule proxy_html_module>
+    Include conf/extra/proxy-html.conf
+    </IfModule>
+
+    # Secure (SSL/TLS) connections
+    Include conf/extra/httpd-ssl.conf
+    #
+    # Note: The following must must be present to support
+    #       starting without SSL on platforms with no /dev/random equivalent
+    #       but a statically compiled-in mod_ssl.
+    #
+    <IfModule ssl_module>
+    SSLRandomSeed startup builtin
+    SSLRandomSeed connect builtin
+    </IfModule>
+    
+  httpd-vhosts.conf: |
+    # Virtual Hosts
+    #
+    # Required modules: mod_log_config
+
+    # If you want to maintain multiple domains/hostnames on your
+    # machine you can setup VirtualHost containers for them. Most configurations
+    # use only name-based virtual hosts so the server doesn't need to worry about
+    # IP addresses. This is indicated by the asterisks in the directives below.
+    #
+    # Please see the documentation at 
+    # <URL:http://httpd.apache.org/docs/2.4/vhosts/>
+    # for further details before you try to setup virtual hosts.
+    #
+    # You may use the command line option '-S' to verify your virtual host
+    # configuration.
+
+    #
+    # VirtualHost example:
+    # Almost any Apache directive may go into a VirtualHost container.
+    # The first VirtualHost section is used for all requests that do not
+    # match a ServerName or ServerAlias in any <VirtualHost> block.
+    #
+    SSLCipherSuite HIGH:MEDIUM:!MD5:!RC4:!3DES
+    SSLProxyCipherSuite HIGH:MEDIUM:!MD5:!RC4:!3DES
+    SSLHonorCipherOrder on
+    SSLProtocol all -SSLv3
+    SSLProxyProtocol all -SSLv3
+    SSLPassPhraseDialog builtin
+    SSLSessionCache "shmcb:/usr/local/apache2/logs/ssl_scache(512000)"
+    SSLSessionCacheTimeout  300
+
+    <VirtualHost *:443>
+      
+      SSLEngine on
+      SSLCertificateFile "/usr/local/apache2/conf/server.crt"
+      SSLCertificateKeyFile "/usr/local/apache2/conf/server.key"
+      <FilesMatch "\.(cgi|shtml|phtml|php)$">
+          SSLOptions +StdEnvVars
+      </FilesMatch>
+      <Directory "/usr/local/apache2/cgi-bin">
+          SSLOptions +StdEnvVars
+      </Directory>
+      BrowserMatch "MSIE [2-5]" \
+              nokeepalive ssl-unclean-shutdown \
+              downgrade-1.0 force-response-1.0
+
+
+      AllowEncodedSlashes On
+      ProxyPreserveHost on
+      RequestHeader set X-Forwarded-Proto "https"
+      ProxyPass "/cantaloupe/" "http://cantaloupe-service:8080/cantaloupe/" nocanon
+      ProxyPass "/" "http://drupal-service/"
+
+
+    </VirtualHost>
+
+    <VirtualHost *:4015>
+
+      RewriteEngine On
+      RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301] 
+
+    </VirtualHost>
+  server.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIFJjCCBA6gAwIBAgISBHQ8g3ZJnZxkkyYRFyXIbgM8MA0GCSqGSIb3DQEBCwUA
+    MDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQD
+    EwJSMzAeFw0yMTA2MDIwNjI3MTRaFw0yMTA4MzEwNjI3MTRaMBUxEzARBgNVBAMT
+    CnRyYWVmaWsubWUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCyR0jW
+    FwYPgv//F7My4l/KNhEFIBEi+GVJLbwB2WKZLsxqh8Nm/JH4RqlvCdo7bQA2IMf+
+    Y8DNFQ0GrrjYmwpK32lhfE8Rv/rCn5PBpAYcvr/r/XoWe2AY+0ukjy+Yev/zg2jA
+    hkSO5JXfJrBJp7//Fq9o5M6QZeKVjdLl/qcXH0dTSxdFaYTITII9IM91UHVPCAtz
+    1sL4DhsneseJRZE+xGNBKV/hFPi8MeGeyPtdAOQejXuXu2QrxoNn3g5O2iwn5k/c
+    VsNkWrui9GYPBcPfzS+fh7PQODA2CQeN4nxiFup7j6mFH+ykHKwssg484Vv1Kw+W
+    CWURqZhlrvZAvZyTAgMBAAGjggJRMIICTTAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0l
+    BBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYE
+    FImseG67ut7kSXvAnExqTT1BjiCoMB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJQOYf
+    r52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3IzLm8u
+    bGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcvMCMG
+    A1UdEQQcMBqCDCoudHJhZWZpay5tZYIKdHJhZWZpay5tZTBMBgNVHSAERTBDMAgG
+    BmeBDAECATA3BgsrBgEEAYLfEwEBATAoMCYGCCsGAQUFBwIBFhpodHRwOi8vY3Bz
+    LmxldHNlbmNyeXB0Lm9yZzCCAQIGCisGAQQB1nkCBAIEgfMEgfAA7gB1AJQgvB6O
+    1Y1siHMfgosiLA3R2k1ebE+UPWHbTi9YTaLCAAABecueh8kAAAQDAEYwRAIgDVU4
+    J0rQdiiQjHvbO1Un3kenTIzfDi0+HItSAZTBmMwCICNXtU3nyQGcQp+W2LTVxtuO
+    ZPlkFTI+nLdDJl/eir85AHUA9lyUL9F3MCIUVBgIMJRWjuNNExkzv98MLyALzE7x
+    ZOMAAAF5y56HuwAABAMARjBEAiAyTRm7AnBKTmD0uwTWO6bvZhOh0kOffy7aJNLF
+    VOrjfAIgMdfFFxMXc0mTe8uXE01XLqb1UM2x+paIXAvHwiHuFQAwDQYJKoZIhvcN
+    AQELBQADggEBAG96iHyLbn2yWRjGXEt3YrkkuToUoaHOkt+5wNroZoJLNj7T8pAL
+    dHuJYRs+95YU149Deg4BdoFgg3XEJhrGRHccTkI2fn4l9+g2ahjI1GJ9BlgeFfnh
+    mgvTeHA5MyZ7nmlQ1P8Gl3SAY7IkuHhn/hDiUTTIXEqVdYqCCrdmdMgVroiBh71y
+    P2Qd50X9DmmpZ9+pi8qO+HJ20kHM6sNcK1sSwcWN0GgKasjPcAlG4dNZKAS0aChB
+    5pUV3NLvH2uzcc2mSHt9R45hBECFsr0bgwlA5A9uPmYsX5Jx3mwCPCjEsmUlD4/B
+    zyuke8bDzcJIQltRWLMlxDVD+msQESNzOOQ=
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    MIIFFjCCAv6gAwIBAgIRAJErCErPDBinU/bWLiWnX1owDQYJKoZIhvcNAQELBQAw
+    TzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh
+    cmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjAwOTA0MDAwMDAw
+    WhcNMjUwOTE1MTYwMDAwWjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg
+    RW5jcnlwdDELMAkGA1UEAxMCUjMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+    AoIBAQC7AhUozPaglNMPEuyNVZLD+ILxmaZ6QoinXSaqtSu5xUyxr45r+XXIo9cP
+    R5QUVTVXjJ6oojkZ9YI8QqlObvU7wy7bjcCwXPNZOOftz2nwWgsbvsCUJCWH+jdx
+    sxPnHKzhm+/b5DtFUkWWqcFTzjTIUu61ru2P3mBw4qVUq7ZtDpelQDRrK9O8Zutm
+    NHz6a4uPVymZ+DAXXbpyb/uBxa3Shlg9F8fnCbvxK/eG3MHacV3URuPMrSXBiLxg
+    Z3Vms/EY96Jc5lP/Ooi2R6X/ExjqmAl3P51T+c8B5fWmcBcUr2Ok/5mzk53cU6cG
+    /kiFHaFpriV1uxPMUgP17VGhi9sVAgMBAAGjggEIMIIBBDAOBgNVHQ8BAf8EBAMC
+    AYYwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMBMBIGA1UdEwEB/wQIMAYB
+    Af8CAQAwHQYDVR0OBBYEFBQusxe3WFbLrlAJQOYfr52LFMLGMB8GA1UdIwQYMBaA
+    FHm0WeZ7tuXkAXOACIjIGlj26ZtuMDIGCCsGAQUFBwEBBCYwJDAiBggrBgEFBQcw
+    AoYWaHR0cDovL3gxLmkubGVuY3Iub3JnLzAnBgNVHR8EIDAeMBygGqAYhhZodHRw
+    Oi8veDEuYy5sZW5jci5vcmcvMCIGA1UdIAQbMBkwCAYGZ4EMAQIBMA0GCysGAQQB
+    gt8TAQEBMA0GCSqGSIb3DQEBCwUAA4ICAQCFyk5HPqP3hUSFvNVneLKYY611TR6W
+    PTNlclQtgaDqw+34IL9fzLdwALduO/ZelN7kIJ+m74uyA+eitRY8kc607TkC53wl
+    ikfmZW4/RvTZ8M6UK+5UzhK8jCdLuMGYL6KvzXGRSgi3yLgjewQtCPkIVz6D2QQz
+    CkcheAmCJ8MqyJu5zlzyZMjAvnnAT45tRAxekrsu94sQ4egdRCnbWSDtY7kh+BIm
+    lJNXoB1lBMEKIq4QDUOXoRgffuDghje1WrG9ML+Hbisq/yFOGwXD9RiX8F6sw6W4
+    avAuvDszue5L3sz85K+EC4Y/wFVDNvZo4TYXao6Z0f+lQKc0t8DQYzk1OXVu8rp2
+    yJMC6alLbBfODALZvYH7n7do1AZls4I9d1P4jnkDrQoxB3UqQ9hVl3LEKQ73xF1O
+    yK5GhDDX8oVfGKF5u+decIsH4YaTw7mP3GFxJSqv3+0lUFJoi5Lc5da149p90Ids
+    hCExroL1+7mryIkXPeFM5TgO9r0rvZaBFOvV2z0gp35Z0+L4WPlbuEjN/lxPFin+
+    HlUjr8gRsI3qfJOQFy/9rKIJR0Y/8Omwt/8oTWgy1mdeHmmjk7j1nYsvC9JSQ6Zv
+    MldlTTKB3zhThV1+XWYp6rjd5JW1zbVWEkLNxE7GJThEUG3szgBVGP7pSWTUTsqX
+    nLRbwHOoq7hHwg==
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    MIIFYDCCBEigAwIBAgIQQAF3ITfU6UK47naqPGQKtzANBgkqhkiG9w0BAQsFADA/
+    MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT
+    DkRTVCBSb290IENBIFgzMB4XDTIxMDEyMDE5MTQwM1oXDTI0MDkzMDE4MTQwM1ow
+    TzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh
+    cmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwggIiMA0GCSqGSIb3DQEB
+    AQUAA4ICDwAwggIKAoICAQCt6CRz9BQ385ueK1coHIe+3LffOJCMbjzmV6B493XC
+    ov71am72AE8o295ohmxEk7axY/0UEmu/H9LqMZshftEzPLpI9d1537O4/xLxIZpL
+    wYqGcWlKZmZsj348cL+tKSIG8+TA5oCu4kuPt5l+lAOf00eXfJlII1PoOK5PCm+D
+    LtFJV4yAdLbaL9A4jXsDcCEbdfIwPPqPrt3aY6vrFk/CjhFLfs8L6P+1dy70sntK
+    4EwSJQxwjQMpoOFTJOwT2e4ZvxCzSow/iaNhUd6shweU9GNx7C7ib1uYgeGJXDR5
+    bHbvO5BieebbpJovJsXQEOEO3tkQjhb7t/eo98flAgeYjzYIlefiN5YNNnWe+w5y
+    sR2bvAP5SQXYgd0FtCrWQemsAXaVCg/Y39W9Eh81LygXbNKYwagJZHduRze6zqxZ
+    Xmidf3LWicUGQSk+WT7dJvUkyRGnWqNMQB9GoZm1pzpRboY7nn1ypxIFeFntPlF4
+    FQsDj43QLwWyPntKHEtzBRL8xurgUBN8Q5N0s8p0544fAQjQMNRbcTa0B7rBMDBc
+    SLeCO5imfWCKoqMpgsy6vYMEG6KDA0Gh1gXxG8K28Kh8hjtGqEgqiNx2mna/H2ql
+    PRmP6zjzZN7IKw0KKP/32+IVQtQi0Cdd4Xn+GOdwiK1O5tmLOsbdJ1Fu/7xk9TND
+    TwIDAQABo4IBRjCCAUIwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMCAQYw
+    SwYIKwYBBQUHAQEEPzA9MDsGCCsGAQUFBzAChi9odHRwOi8vYXBwcy5pZGVudHJ1
+    c3QuY29tL3Jvb3RzL2RzdHJvb3RjYXgzLnA3YzAfBgNVHSMEGDAWgBTEp7Gkeyxx
+    +tvhS5B1/8QVYIWJEDBUBgNVHSAETTBLMAgGBmeBDAECATA/BgsrBgEEAYLfEwEB
+    ATAwMC4GCCsGAQUFBwIBFiJodHRwOi8vY3BzLnJvb3QteDEubGV0c2VuY3J5cHQu
+    b3JnMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jcmwuaWRlbnRydXN0LmNvbS9E
+    U1RST09UQ0FYM0NSTC5jcmwwHQYDVR0OBBYEFHm0WeZ7tuXkAXOACIjIGlj26Ztu
+    MA0GCSqGSIb3DQEBCwUAA4IBAQAKcwBslm7/DlLQrt2M51oGrS+o44+/yQoDFVDC
+    5WxCu2+b9LRPwkSICHXM6webFGJueN7sJ7o5XPWioW5WlHAQU7G75K/QosMrAdSW
+    9MUgNTP52GE24HGNtLi1qoJFlcDyqSMo59ahy2cI2qBDLKobkx/J3vWraV0T9VuG
+    WCLKTVXkcGdtwlfFRjlBz4pYg1htmf5X6DYO8A4jqv2Il9DjXA6USbW1FzXSLr9O
+    he8Y4IWS6wY7bCkjCWDcRQJMEhg76fsO3txE+FiYruq9RUWhiF1myv4Q6W+CyBFC
+    Dfvp7OOGAN6dEOM4+qR9sdjoSYKEBpsr6GtPAQw4dy753ec5
+    -----END CERTIFICATE-----
+
+  server.key: |
+    -----BEGIN PRIVATE KEY-----
+    MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCyR0jWFwYPgv//
+    F7My4l/KNhEFIBEi+GVJLbwB2WKZLsxqh8Nm/JH4RqlvCdo7bQA2IMf+Y8DNFQ0G
+    rrjYmwpK32lhfE8Rv/rCn5PBpAYcvr/r/XoWe2AY+0ukjy+Yev/zg2jAhkSO5JXf
+    JrBJp7//Fq9o5M6QZeKVjdLl/qcXH0dTSxdFaYTITII9IM91UHVPCAtz1sL4Dhsn
+    eseJRZE+xGNBKV/hFPi8MeGeyPtdAOQejXuXu2QrxoNn3g5O2iwn5k/cVsNkWrui
+    9GYPBcPfzS+fh7PQODA2CQeN4nxiFup7j6mFH+ykHKwssg484Vv1Kw+WCWURqZhl
+    rvZAvZyTAgMBAAECggEAUkeyJxUTN/+G9Q3UJ+zwttwDOPFW12P7Iy4XcmcJKZe+
+    woAMQDDbkdHTCytp7DlfepvgkdkqN7y6eVYUe+v6cRnxggukVpXbPw31XM69/3BO
+    FbW0LkIc1QrOG5H2LpK+JH6Gzyxo4eZAAXDStfvVEf8/T9MiPuS3Eb0WFA5WwcVp
+    qxZNdFfIQzyihlYgXgKkBs16Moj6yPEQTZ3HEYqR1LakSjlJeEu9g7eLj2LY+p8R
+    /3tIzrlR/fAFXiCDNqDDudUswN/kI9Kr64t1c1AF3JqWO5HSvAJ60eNdegTBzhQ6
+    0M85yT+dp4yClL3Mkp/BPIFhN4N+iDzFo/S9Bqba6QKBgQDXFV9IpblP01ZeZbmz
+    8k985c78ddfrFvZFj4eNLw60BQhscyBkubX2yBfN/RxFQjqelzqfXEHqqm+e1lMy
+    6zhEw3g2Q1BJKSaIOCUSIFxJAwh1wNVtiKj2K3Hcm7qNlL1unZqmStQNrOLgi/Bp
+    wpcLr4hMN4uJXdHvF6zgfHB4BQKBgQDUMX8pw2t6Fnp4nz2uL4SubTAldoqveXco
+    ij8syFABquf5m4CRCkNKcNjafE3fgTn/kDvHB+MyTGHb8VxC//+gmOfRuVnaTfgr
+    nKYrTwZvSYobsy0DBTPhR6vMjlnErhFOhuQjtzU9b4J/P/aA+BdYve7R4ppqB43G
+    VDEeICZdtwKBgAPei49IA/RureAW3mdhVZK+o6GhERhWmmmX8m1UymPsr0EcNRn6
+    yU4+PUdkZUzNqzZNLC3PwBPTqxxlaKvC1YlPJut6/IfEaMAMmoYf9OkPV+ieZniI
+    +9kp4OuCFbIUWfASf8S8FeKFGLPHcLTGXmdEaiRM34LCIFO3zlFfi7ptAoGBALqN
+    sbD0AD/cF1yJE99aI5p+oH+vUoqnjZ10vcoPales/Dm0/zmE/lgqEl00P/qqUGVh
+    V0zKoHKOONL3xheZnhKBm/4EqPyG5BLjrCwTVCLvUp67zm0DW/NJ4b77v+xs5QZX
+    Dahg4EvdB6v8fiow88WvZpHcWcmyTnD5gB1uQozNAoGBALzhTseIFOG8OYv/9nIl
+    arHhuzWQkc6hA2Q5z2iG6kuZHVhGjJ/pO+Z/ApTVu/MErbEP9VGcPwri/5zm106a
+    6Nvtc5c029Gim65kYN+Aml7bfyglHGCc/7cgGYVkhnDXBW3zP6MOPdglyA3Yf+8z
+    Jnn2dN2jYf7bhE3IfwbZ4CmR
+    -----END PRIVATE KEY-----

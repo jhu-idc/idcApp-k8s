@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverseproxy
+spec:
+  template:
+    spec:
+      containers:
+        - name: reverseproxy
+          volumeMounts:
+          - name: reverseproxy
+            mountPath: /usr/local/apache2/conf/server.crt
+            subPath: server.crt
+            readOnly: true
+          - name: reverseproxy
+            mountPath: /usr/local/apache2/conf/server.key
+            subPath: server.key
+            readOnly: true
