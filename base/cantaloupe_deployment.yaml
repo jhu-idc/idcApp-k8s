@@ -18,6 +18,11 @@ spec:
         - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/cantaloupe:upstream-20200824-f8d1e8e-27-g6cd914d
           name: cantaloupe
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 300Mi
+            limits:
+              memory: 400Mi
           volumeMounts:
             - mountPath: /data
               name: cantaloupe-data
