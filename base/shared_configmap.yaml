@@ -7,7 +7,7 @@ data:
   db.host: mariadb-service
   db.port: !!integer 3306
   db.driver: mysql
-  db.root: root
+  db.rootUser: root
   db.name: drupal_default
 
 # default site config
