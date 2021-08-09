@@ -51,6 +51,17 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: db.name
+            - name: DRUPAL_DEFAULT_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: drupal
+                  key: user_password
+            - name: DRUPAL_DEFAULT_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.default.db_user
+
    
       containers:
         - name: drupal

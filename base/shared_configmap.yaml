@@ -18,7 +18,7 @@ data:
   drupal.default.db_driver: mysql
   drupal.default.db_host: mariadb-idc.traefik.me
   drupal.default.db_port: "3306"
-  drupal.default.db_user: "root" # XXX: BAD REMOVE FOR PROD
+  drupal.default.db_user: "drupal"
   drupal.default.install_existing_config: "true"
   drupal.default.profile: standard
   drupal.default.site_url: http://islandora-idc.traefik.me
