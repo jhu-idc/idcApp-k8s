@@ -24,6 +24,6 @@ patchesStrategicMerge:
   - patches/shared-shared-db.name-patch.yaml
   - patches/shared-shared-db.port-patch.yaml
   - patches/shared-shared-db.rootUser-patch.yaml
-  - patches/shared-shared-drupal.default.db_user-patch.yaml ##XXX REMOVE THIS FOR PRODUCTION OR CHANGE USERNAME!!
+ # - patches/shared-shared-drupal.default.db_user-patch.yaml ##XXX REMOVE THIS FOR PRODUCTION OR CHANGE USERNAME!!
   - patches/minio-deployment-patch.yaml
 namespace: test
