@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testpod
+spec:
+  containers:
+  - name: test
+    image: mysql:latest
+    command: ['sleep', '10d']
+    volumeMounts:
+      - mountPath: /var/lib/mysql
+        name: mariadb-data
+      - mountPath: /var/lib/mysql-files
+        name: mariadb-files
+  volumes:
+    - name: mariadb-data
+      persistentVolumeClaim:
+        claimName: mariadb-data
+    - name: mariadb-files
+      persistentVolumeClaim:
+        claimName: mariadb-files
+
