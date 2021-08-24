@@ -16,12 +16,12 @@ spec:
     spec:
       containers:
         - name: houdini
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/houdini:upstream-20200824-f8d1e8e-27-g6cd914d
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/houdini:upstream-20200824-f8d1e8e-46-gf9beba1
           resources:
             requests:
-              memory: 100Mi
+              memory: 2000Mi
             limits:
-              memory: 200Mi
+              memory: 4000Mi
           env:
             - name: HOUDINI_JWT_PUBLIC_KEY
               valueFrom:

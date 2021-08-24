@@ -15,14 +15,14 @@ spec:
         app: alpaca
     spec:
       containers:
-      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/alpaca:upstream-20200824-f8d1e8e-27-g6cd914d
+      - image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/alpaca:upstream-20200824-f8d1e8e-46-gf9beba1
         name: alpaca
         imagePullPolicy: Always
         resources:
           requests:
-            memory: 600Mi
+            memory: 1000Mi
           limits:
-            memory: 800Mi
+            memory: 2000Mi
         env:
           - name: ALPACA_ACTIVEMQ_URL
             value: tcp://activemq-service:61616
