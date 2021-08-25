@@ -10,17 +10,19 @@ resources:
   - volumes/
 
 patchesStrategicMerge:
+  - patches/drupal-s3-env-patch.yaml
   - patches/drupal-service-patch.yaml
+  - patches/drupal.namespace-config-patch.yaml
+  - patches/drupal.sp-patch.yaml
+  - patches/image-updates-patch.yaml
+  - patches/mariadb-deployment-replica-patch.yaml
+  - patches/reverseproxy-service-ssl-patch.yaml
   - patches/secret-drupal-root_password-patch.yaml
+  - patches/secret-drupal-user_password-patch.yaml ## XXX REMOVE THIS FOR PRODUCTION OR CHANGE THE PASS!!
   - patches/shared-shared-db.host-patch.yaml
   - patches/shared-shared-db.name-patch.yaml
   - patches/shared-shared-db.port-patch.yaml
   - patches/shared-shared-db.rootUser-patch.yaml
-  - patches/shared-shared-drupal.default.db_user-patch.yaml ##XXX REMOVE THIS FOR PRODUCTION OR CHANGE USERNAME!!
-  - patches/secret-drupal-user_password-patch.yaml ## XXX REMOVE THIS FOR PRODUCTION OR CHANGE THE PASS!!
-  - patches/mariadb-deployment-replica-patch.yaml
-  - patches/drupal.sp-patch.yaml
-  - patches/drupal.namespace-config-patch.yaml
-  - patches/reverseproxy-service-ssl-patch.yaml
-  - patches/drupal-s3-env-patch.yaml
+  - patches/minio-deployment-patch.yaml
+  
 namespace: stage
