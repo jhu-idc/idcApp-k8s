@@ -5,12 +5,6 @@ resources:
   - activemq_secrets.yaml
   - drupal_secrets.yaml
   - drupal-sealed.yaml
-  # - idp-backchannel_secret.yaml
-  # - idp_deployment.yaml
-  # - idp_service.yaml
-  # - ldap_deployment.yaml
-  # - ldap_service.yaml
   - saml-secrets-sealed.yaml
-  #- reverseproxy.yaml
   - reverseproxy-configmap.yaml
-  #- reverseproxy-service.yaml
+  

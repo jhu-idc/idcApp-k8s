@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: drupal-service
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: prod.idc-kubernetes.cloud.library.jhu.edu
