@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpaca
+spec:
+  template:
+    spec:
+      containers:
+        - name: alpaca
+          env:
+            - name: ALPACA_HOMERUS_HTTP_SOCKET_TIMEOUT_MS
+              value: "72000000"

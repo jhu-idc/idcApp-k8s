@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+spec:
+  template:
+    spec:
+      containers:
+        - name: drupal
+          env:
+            - name: DRUPAL_JWT_EXPIRY_INTERVAL
+              value: '+4 hour'
