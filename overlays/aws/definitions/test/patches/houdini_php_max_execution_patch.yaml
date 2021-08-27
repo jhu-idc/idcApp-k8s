@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: houdini
+spec:
+  template:
+    spec:
+      containers:
+        - name: houdini
+          env:
+            - name: PHP_MAX_EXECUTION_TIME
+              value: "7200"

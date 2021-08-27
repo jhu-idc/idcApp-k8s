@@ -26,4 +26,5 @@ patchesStrategicMerge:
   - patches/shared-shared-db.rootUser-patch.yaml
   - patches/minio-deployment-patch.yaml
   - patches/homarus_php_max_execution_patch.yaml
+  - patches/houdini_php_max_execution_patch.yaml
 namespace: test
