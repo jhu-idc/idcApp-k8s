@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homarus
+spec:
+  template:
+    metadata:
+      labels:
+        app: homarus
+    spec:
+      containers:
+        - name: homarus
+          env:
+            - name: PHP_MAX_EXECUTION_TIME
+              value: "7200"
