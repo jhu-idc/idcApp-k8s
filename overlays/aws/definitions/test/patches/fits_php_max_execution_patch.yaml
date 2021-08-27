@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fits
+spec:
+  template:
+    spec:
+      containers:
+        - name: fits
+          env:
+            - name: PHP_MAX_EXECUTION_TIME
+              value: "7200"
