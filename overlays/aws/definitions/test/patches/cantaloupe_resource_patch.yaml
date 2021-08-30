@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cantaloupe
+spec:
+  template:
+    spec:
+      containers:
+        - name: cantaloupe
+          resources:
+            requests:
+              memory: 400Mi
+            limits:
+              memory: 2000Mi
