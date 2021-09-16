@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sandbox-reset
+data:
+  reset.sh: |
+    #!/bin/bash
+    # This is a shell script to run inside of the sandbox_reset pod/job/cron.
+    #
+    # This script is highly DESTRUCTIVE!!! It will do the following:
+    # 
+    # - stop the drupal deployment
+    # - wipe the database
+    # - wipe the persistent volumes
+    # - empty the S3 bucket
+    # - re-deploy/restart the idc-bootstrap process 
+    # - re-deploy the drupal deployment
+    # 
+
+    # install mysql/maria client
+    yum -y install mariadb jq
+
+    # Grab a copy of kubectl
+    curl -o /bin/kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
+
+    # set perms
+    chmod +x /bin/kubectl
+
+
+    # Grab a copy of the drupal deployment and the bootstrap job
+    # before we delete it.
+    kubectl get deployment drupal -o json > /tmp/drupal.json
+    kubectl get job idc-bootstrap -o json | jq 'del(.spec.selector)' | jq 'del(.spec.template.metadata.labels)' > /tmp/bootstrap.json
+    kubectl delete job idc-bootstrap
+
+    echo "Stopping drupal deployment"
+    # stop the drupal deployment
+    kubectl -n sandbox delete deployment drupal
+
+    # wait for drupal to stop
+    echo "Waiting for drupal to stop "
+    drupal_check=`kubectl -n sandbox get po | grep drupal`
+    while [ ! -z "$drupal_check" ]
+    do  
+      drupal_check=`kubectl -n sandbox get po | grep drupal`
+      sleep 1
+      echo -n "."
+    done
+
+    echo -n "Dropping DB ${DRUPAL_DEFAULT_DB_NAME}..."
+    echo "DROP DB ${DRUPAL_DEFAULT_DB_NAME}" | mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} ${DRUPAL_DEFAULT_DB_NAME}
+    echo "DONE"
+
+    echo -n "Clearing persistent volumes..."
+    for i in `ls /mnt/`; do rm -rf /mnt/$i/*; done;
+    echo "Done"
+
+    echo -n "Clearing S3 bucket..."
+    aws s3 rm --recursive s3://${DRUPAL_DEFAULT_S3_BUCKET}
+    echo "Done"
+
+    echo -n "Redeploying idc-bootstrap... "
+    kubectl apply -f /tmp/bootstrap.json
+    echo "Done"
+
+    # wait for bootstrap to finish
+    echo "Waiting for idc-bootstrap to finish"
+    job_check=`kubectl -n sandbox get po | grep idc-bootstrap | grep -i complete`
+    while [ -z "$job_check" ]
+    do  
+      job_check=`kubectl -n sandbox get po |  grep idc-bootstrap | grep -i complete`
+      sleep 1
+      echo -n "."
+    done;
+    
+    echo "Done."
+
+    echo -n "Redeploying drupal... "
+    kubectl apply -f /tmp/drupal.json
+    echo "Done."
+
+    echo; 
+    echo;
+
+    echo "Done resetting, drupal should be up in a few moments. "
