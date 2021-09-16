@@ -1,0 +1,115 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sandbox-reset
+spec:
+  template:
+    spec:
+      serviceAccountName: sandbox-reset
+      volumes:
+        - name: mariadb-files
+          persistentVolumeClaim:
+            claimName: mariadb-files
+        - name: solr-data
+          persistentVolumeClaim:
+            claimName: solr-data
+        - name: drupal-data
+          persistentVolumeClaim:
+            claimName: drupal-data
+        - name: sandbox-reset
+          configMap:
+            name: sandbox-reset
+      containers:
+      - name: aws-cli
+        image: amazon/aws-cli
+        command: ["/bin/sh"]
+        args: ["-c","while [ 1 ]; do sleep 1; done;"]
+        volumeMounts:
+          - mountPath: /mnt/mariadb-dump
+            name: mariadb-files
+          - mountPath: /mnt/solr
+            name: solr-data
+          - mountPath: /mnt/drupal
+            name: drupal-data
+          - name: sandbox-reset
+            mountPath: /bin/reset.sh
+            subPath: reset.sh
+        env:
+          - name: DRUPAL_DEFAULT_DB_ROOT_USER
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.rootUser
+          - name: DRUPAL_DEFAULT_DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.name
+          - name: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: root_password
+          - name: DRUPAL_DEFAULT_DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.host
+          - name: DRUPAL_DEFAULT_DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.port
+          - name: DRUPAL_DEFAULT_S3_BUCKET
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: s3BucketName
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: s3AccessKey
+          - name: AWS_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: s3SecretKey
+      restartPolicy: Never
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sandbox-reset
+--- 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: modify-pods
+rules:
+  - apiGroups:
+      - ""
+      - "batch"
+      - "apps"
+    resources:
+      - pods
+      - jobs
+      - deployments
+    verbs:
+      - create
+      - get
+      - list
+      - delete
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: modify-pods-to-sa
+subjects:
+  - kind: ServiceAccount
+    name: sandbox-reset
+roleRef:
+  kind: Role
+  name: modify-pods
+  apiGroup: rbac.authorization.k8s.io
