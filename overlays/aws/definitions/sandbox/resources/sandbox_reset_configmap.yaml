@@ -44,7 +44,7 @@ data:
     do  
       drupal_check=`kubectl -n sandbox get po | grep drupal`
       sleep 1
-      echo "."
+      echo -n "."
     done
 
     echo -n "Dropping DB ${DRUPAL_DEFAULT_DB_NAME}..."
@@ -70,7 +70,7 @@ data:
     do  
       job_check=`kubectl -n sandbox get po |  grep idc-bootstrap | grep -i complete`
       sleep 1
-      echo "."
+      echo -n "."
     done;
     
     echo "Done."
