@@ -49,7 +49,7 @@ data:
     done
 
     echo -n "Dropping DB ${DRUPAL_DEFAULT_DB_NAME}..."
-    echo "DROP DB ${DRUPAL_DEFAULT_DB_NAME}" | mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} ${DRUPAL_DEFAULT_DB_NAME}
+    echo "DROP database ${DRUPAL_DEFAULT_DB_NAME};" | mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} ${DRUPAL_DEFAULT_DB_NAME}
     echo "DONE"
 
     echo -n "Clearing persistent volumes..."

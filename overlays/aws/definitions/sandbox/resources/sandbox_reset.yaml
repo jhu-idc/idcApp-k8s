@@ -22,9 +22,10 @@ spec:
             defaultMode: 0755
       containers:
       - name: aws-cli
-        image: amazon/aws-cli
+        image: amazon/aws-cli:2.2.38
         command: ["/bin/bash"]
-        args: ["-c","/bin/reset.sh"]
+        args: [ "-c","sleep 10d"]
+        #args: ["-c","/bin/reset.sh"]
         volumeMounts:
           - mountPath: /mnt/mariadb-dump
             name: mariadb-files
@@ -66,12 +67,12 @@ spec:
               secretKeyRef:
                 name: drupal
                 key: s3BucketName
-          - name: AWS_SECRET_ACCESS_KEY
+          - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:
                 name: drupal
                 key: s3AccessKey
-          - name: AWS_SECRET_KEY
+          - name: AWS_SECRET_ACCESS_KEY
             valueFrom:
               secretKeyRef:
                 name: drupal
