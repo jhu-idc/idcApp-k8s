@@ -34,6 +34,7 @@ spec:
           - name: sandbox-reset
             mountPath: /bin/reset.sh
             subPath: reset.sh
+            defaultMode: 0755
         env:
           - name: DRUPAL_DEFAULT_DB_ROOT_USER
             valueFrom:
