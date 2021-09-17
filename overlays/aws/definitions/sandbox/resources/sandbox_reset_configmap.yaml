@@ -30,6 +30,7 @@ data:
     # Grab a copy of the drupal deployment and the bootstrap job
     # before we delete it.
     kubectl get deployment drupal -o json > /tmp/drupal.json
+    kubectl get deployment solr -o json > /tmp/solr.json
     kubectl get job idc-bootstrap -o json | jq 'del(.spec.selector)' | jq 'del(.spec.template.metadata.labels)' > /tmp/bootstrap.json
     kubectl delete job idc-bootstrap
 
@@ -75,6 +76,10 @@ data:
     
     echo "Done."
 
+    echo -n "Redeploying solr... "
+    kubectl apply -f /tmp/solr.json
+    echo "Done"
+    
     echo -n "Redeploying drupal... "
     kubectl apply -f /tmp/drupal.json
     echo "Done."
