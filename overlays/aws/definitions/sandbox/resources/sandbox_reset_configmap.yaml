@@ -35,14 +35,14 @@ data:
 
     echo "Stopping drupal deployment"
     # stop the drupal deployment
-    kubectl -n sandbox delete deployment drupal
+    kubectl delete deployment drupal
 
     # wait for drupal to stop
     echo "Waiting for drupal to stop "
-    drupal_check=`kubectl -n sandbox get po | grep drupal`
+    drupal_check=`kubectl get po | grep drupal`
     while [ ! -z "$drupal_check" ]
     do  
-      drupal_check=`kubectl -n sandbox get po | grep drupal`
+      drupal_check=`kubectl get po | grep drupal`
       sleep 1
       echo -n "."
     done
@@ -65,10 +65,10 @@ data:
 
     # wait for bootstrap to finish
     echo "Waiting for idc-bootstrap to finish"
-    job_check=`kubectl -n sandbox get po | grep idc-bootstrap | grep -i complete`
+    job_check=`kubectl get po | grep idc-bootstrap | grep -i complete`
     while [ -z "$job_check" ]
     do  
-      job_check=`kubectl -n sandbox get po |  grep idc-bootstrap | grep -i complete`
+      job_check=`kubectl get po |  grep idc-bootstrap | grep -i complete`
       sleep 1
       echo -n "."
     done;
