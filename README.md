@@ -5,11 +5,11 @@ Base application repository for the iDC kubernetes project.
 
 1. Extract snapshot content into a tar file.  Currently, idcApp-k8s does not have a convenient way of handling snapshots, so this must be handled manually.
 
-   a. Identify a snapshot image to extract.  Copy the latest image tag from [the github package registry](https://github.com/orgs/jhu-sheridan-libraries/packages/container/package/idc-isle-dc%2Fsnapshot), or look in `idc-isle-dc/.env`.  For example, `ghcr.io/jhu-sheridan-libraries/idc-isle-dc/snapshot:upstream-20201007-739693ae-299-g2877508.1622573315`.
+   a. Identify a snapshot image to extract.  Copy the latest image tag from [the github package registry](https://github.com/orgs/jhu-sheridan-libraries/packages/container/package/idc-isle-dc%2Fsnapshot), or look in `idc-isle-dc/.env`.  For example, `ghcr.io/jhu-sheridan-libraries/idc-isle-dc/snapshot:upstream-20201007-739693ae-405-g521b43f.1630614319`.
 
    b. Extract a tar file from the snapshot image via `snapshot=$(docker create <IMAGE>); docker export $snapshot > data.tar`.  For example,
      <pre>
-      snapshot=$(docker create ghcr.io/jhu-sheridan-libraries/idc-isle-dc/snapshot:upstream-20201007-739693ae-299-g2877508.1622573315); \
+      snapshot=$(docker create ghcr.io/jhu-sheridan-libraries/idc-isle-dc/snapshot:upstream-20201007-739693ae-405-g521b43f.1630614319); \
       docker export $snapshot > data.tar
      </pre>
 
