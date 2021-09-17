@@ -19,7 +19,7 @@ spec:
         - name: sandbox-reset
           configMap:
             name: sandbox-reset
-            mode: 0755
+            defaultMode: 0755
       containers:
       - name: aws-cli
         image: amazon/aws-cli
