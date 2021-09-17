@@ -79,11 +79,7 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 10
             failureThreshold: 5            
-          #image: ghcr.io/jhu-library-operations/drupal-static:upstream-20201007-739693ae-123-g9a3a8e2
-          #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:ca29a84
-          #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:fb1c58e
-          #image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:upstream-20201007-739693ae-290-gda87f78
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:53e3dcf
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:upstream-20201007-739693ae-440-g8e26503
           resources:
             requests:
               memory: 200Mi
