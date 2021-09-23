@@ -69,17 +69,17 @@ spec:
             httpGet:
               path: /
               port: 80
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 5
           livenessProbe:
             httpGet:
               path: /
               port: 80
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 5            
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:upstream-20201007-739693ae-440-g8e26503
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:b14a17b
           resources:
             requests:
               memory: 200Mi
