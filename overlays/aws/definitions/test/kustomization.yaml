@@ -15,6 +15,7 @@ patchesStrategicMerge:
   - patches/drupal-service-patch.yaml
   - patches/drupal.namespace-config-patch.yaml
   - patches/drupal.sp-patch.yaml
+  - patches/drupal_php_max_execution_patch.yaml
   - patches/image-updates-patch.yaml
   - patches/mariadb-deployment-replica-patch.yaml
   - patches/reverseproxy-service-ssl-patch.yaml
@@ -26,7 +27,6 @@ patchesStrategicMerge:
   - patches/shared-shared-db.rootUser-patch.yaml
   - patches/minio-deployment-patch.yaml
   - patches/homarus_php_max_execution_patch.yaml
-  - patches/houdini_php_max_execution_patch.yaml
   - patches/fits_php_max_execution_patch.yaml
   - patches/crayfits_php_max_execution_patch.yaml
   - patches/hypercube_php_max_execution_patch.yaml
