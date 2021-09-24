@@ -207,9 +207,7 @@ data:
     LoadModule rewrite_module modules/mod_rewrite.so
 
 
-    <IfModule proxy_module>
-      ProxySet connectiontimeout=300 timeout=400
-    </IfModule>
+
     <IfModule unixd_module>
     #
     # If you wish httpd to run as a different user or group, you must run
@@ -600,5 +598,5 @@ data:
 
       RewriteEngine On
       RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301] 
-
+      
     </VirtualHost>
