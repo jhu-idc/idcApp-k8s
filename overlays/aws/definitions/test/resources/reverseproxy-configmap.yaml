@@ -206,6 +206,10 @@ data:
     LoadModule alias_module modules/mod_alias.so
     LoadModule rewrite_module modules/mod_rewrite.so
 
+
+    <IfModule proxy_module>
+      ProxySet connectiontimeout=300 timeout=400
+    </IfModule>
     <IfModule unixd_module>
     #
     # If you wish httpd to run as a different user or group, you must run
