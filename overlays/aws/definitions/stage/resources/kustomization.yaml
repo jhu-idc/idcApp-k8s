@@ -6,5 +6,3 @@ resources:
   - drupal_secrets.yaml
   - drupal-sealed.yaml
   - saml-secrets-sealed.yaml
-  - reverseproxy-configmap.yaml
-  
