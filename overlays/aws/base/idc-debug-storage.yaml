@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: idc-debug-storage
+spec:
+  volumes:
+    - name: mariadb-files
+      persistentVolumeClaim:
+        claimName: mariadb-files
+    - name: solr-data
+      persistentVolumeClaim:
+        claimName: solr-data
+    - name: drupal-data
+      persistentVolumeClaim:
+        claimName: drupal-data
+  containers:
+  - name: aws-cli
+    image: amazon/aws-cli
+    command: ["/bin/sh"]
+    args: ["-c","sleep 10d"]
+    volumeMounts:
+      - mountPath: /mnt/mariadb-dump
+        name: mariadb-files
+      - mountPath: /mnt/solr
+        name: solr-data
+      - mountPath: /mnt/drupal
+        name: drupal-data
