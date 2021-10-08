@@ -15,11 +15,15 @@ spec:
         - name: drupal-data
           persistentVolumeClaim:
             claimName: drupal-data
+        - name: bootstrap-script
+          configMap:
+            name: bootstrap-script
+            defaultMode: 0755
       containers:
       - name: aws-cli
         image: amazon/aws-cli
         command: ["/bin/sh"]
-        args: ["-c","for i in `ls /mnt/`; do aws s3 cp --recursive s3://idc-init/idc/$i/ /mnt/$i; done;"]
+        args: ["-c","/bin/bootstrap.sh"]
         volumeMounts:
           - mountPath: /mnt/mariadb-dump
             name: mariadb-files
@@ -27,4 +31,25 @@ spec:
             name: solr-data
           - mountPath: /mnt/drupal
             name: drupal-data
+          - name: bootstrap-script
+            mountPath: /bin/bootstrap.sh
+            subPath: bootstrap.sh
       restartPolicy: Never
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bootstrap-script
+data:
+  bootstrap.sh: |
+    #!/bin/bash
+    if [ ! -f /mnt/drupal/initialized ]
+    then
+      for i in `ls /mnt/`
+      do
+        aws s3 sync --delete s3://idc-init/idc/$i/ /mnt/$i/
+      done
+      touch /mnt/drupal/initialized
+    else
+      echo 'Already bootstrapped.'
+    fi
