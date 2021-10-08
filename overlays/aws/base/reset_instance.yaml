@@ -1,0 +1,237 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: reset-instance
+spec:
+  template:
+    spec:
+      serviceAccountName: reset-instance
+      volumes:
+        - name: mariadb-files
+          persistentVolumeClaim:
+            claimName: mariadb-files
+        - name: solr-data
+          persistentVolumeClaim:
+            claimName: solr-data
+        - name: drupal-data
+          persistentVolumeClaim:
+            claimName: drupal-data
+        - name: reset-instance
+          configMap:
+            name: reset-instance
+            defaultMode: 0755
+      containers:
+      - name: aws-cli
+        image: amazon/aws-cli:2.2.38
+        command: ["/bin/bash"]
+        args: ["-c","/bin/reset.sh"]
+        volumeMounts:
+          - mountPath: /mnt/mariadb-dump
+            name: mariadb-files
+          - mountPath: /mnt/solr
+            name: solr-data
+          - mountPath: /mnt/drupal
+            name: drupal-data
+          - name: reset-instance
+            mountPath: /bin/reset.sh
+            subPath: reset.sh
+        env:
+          - name: DRUPAL_DEFAULT_DB_ROOT_USER
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.rootUser
+          - name: DRUPAL_DEFAULT_DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.name
+          - name: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: root_password
+          - name: DRUPAL_DEFAULT_DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.host
+          - name: DRUPAL_DEFAULT_DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.port
+          - name: DRUPAL_DEFAULT_S3_BUCKET
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: s3BucketName
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: s3AccessKey
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: s3SecretKey
+      restartPolicy: Never
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: reset-instance
+--- 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: modify-pods
+rules:
+  - apiGroups:
+      - ""
+      - "batch"
+      - "apps"
+    resources:
+      - pods
+      - jobs
+      - deployments
+    verbs:
+      - create
+      - get
+      - list
+      - delete
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: modify-pods-to-sa
+subjects:
+  - kind: ServiceAccount
+    name: reset-instance
+roleRef:
+  kind: Role
+  name: modify-pods
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: reset-instance
+data:
+  reset.sh: |
+    #!/bin/bash
+    # This is a shell script to run inside of the sandbox_reset pod/job/cron.
+    #
+    # This script is highly DESTRUCTIVE!!! It will do the following:
+    # 
+    # - stop the drupal deployment
+    # - wipe the database
+    # - wipe the persistent volumes
+    # - empty the S3 bucket
+    # - re-deploy/restart the idc-bootstrap process 
+    # - re-deploy the drupal deployment
+    # 
+
+    # install mysql/maria client
+    yum -y install mariadb jq > /dev/null
+
+    # Grab a copy of kubectl
+    curl -o /bin/kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl > /dev/null
+
+    # set perms
+    chmod +x /bin/kubectl
+
+
+    # Grab a copy of the drupal deployment and the bootstrap job
+    # before we delete it.
+    kubectl get deployment drupal -o json > /tmp/drupal.json
+    kubectl get deployment solr -o json > /tmp/solr.json
+    kubectl get job idc-bootstrap -o json | jq 'del(.spec.selector)' | jq 'del(.spec.template.metadata.labels)' > /tmp/bootstrap.json
+    kubectl delete job idc-bootstrap
+
+    echo "Stopping drupal deployment"
+    # stop the drupal deployment
+    kubectl delete deployment drupal
+
+    # wait for drupal to stop
+    echo -n "Waiting for drupal to stop "
+    drupal_check=`kubectl get po | grep drupal`
+    while [ ! -z "$drupal_check" ]
+    do  
+      drupal_check=`kubectl get po | grep drupal`
+      sleep 1
+      echo -n "."
+    done
+
+    echo "DONE."
+
+
+    echo "Stopping solr deployment"
+    # stop the solr deployment
+    kubectl delete deployment solr
+
+    # wait for drupal to stop
+    echo -n "Waiting for solr to stop "
+    drupal_check=`kubectl get po | grep solr`
+    while [ ! -z "$drupal_check" ]
+    do  
+      drupal_check=`kubectl get po | grep solr`
+      sleep 1
+      echo -n "."
+    done
+
+    echo "DONE."
+
+
+
+    echo -n "Dropping DB ${DRUPAL_DEFAULT_DB_NAME}..."
+    echo "DROP database ${DRUPAL_DEFAULT_DB_NAME};" | mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} ${DRUPAL_DEFAULT_DB_NAME}
+    echo "DONE"
+
+    echo -n "Clearing persistent volumes..."
+    for i in `ls /mnt/`; do rm -rf /mnt/$i/*; done;
+    echo "Done"
+
+    echo -n "Clearing S3 bucket..."
+    aws s3 rm --recursive s3://${DRUPAL_DEFAULT_S3_BUCKET}
+    echo "Done"
+
+    echo -n "Redeploying idc-bootstrap... "
+    kubectl apply -f /tmp/bootstrap.json
+    echo "Done"
+
+    # wait for bootstrap to finish
+    echo "Waiting for idc-bootstrap to finish"
+    job_check=`kubectl get po | grep idc-bootstrap | grep -i complete`
+    while [ -z "$job_check" ]
+    do  
+      job_check=`kubectl get po |  grep idc-bootstrap | grep -i complete`
+      sleep 1
+      echo -n "."
+    done;
+    
+    echo "Done."
+
+    echo -n "Issuing a restart of all deployments..."
+    kubectl rollout restart deployment 
+    echo "DONE.
+
+    echo "Waiting for things to settle..."
+    sleep 30
+    echo "Done."
+
+    echo -n "Redeploying solr... "
+    kubectl apply -f /tmp/solr.json
+    echo "Done"
+    
+    echo -n "Redeploying drupal... "
+    kubectl apply -f /tmp/drupal.json
+    echo "Done."
+
+    "
+    echo; 
+    echo;
+
+    echo "Done resetting, drupal should be up in a few moments. "
