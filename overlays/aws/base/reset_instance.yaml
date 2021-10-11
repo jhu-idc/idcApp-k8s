@@ -148,7 +148,7 @@ data:
     # before we delete it.
     kubectl get deployment drupal -o json > /tmp/drupal.json
     kubectl get deployment solr -o json > /tmp/solr.json
-    kubectl get job idc-bootstrap -o json | jq 'del(.spec.selector)' | jq 'del(.spec.template.metadata.labels)' > /tmp/bootstrap.json
+    kubectl get job idc-bootstrap -o json | jq 'del(.spec.selector, .spec.template.metadata.labels, .spec.template.metadata.labels, .metadata.labels, .status, .metadata.uid, .metadata.selfLink, .metadata.resourceVersion, .metadata.creationTimestamp)' > /tmp/bootstrap.json
     kubectl delete job idc-bootstrap
 
     echo "Stopping drupal deployment"
@@ -214,9 +214,13 @@ data:
     
     echo "Done."
 
-    echo -n "Issuing a restart of all deployments..."
+    echo "Removing idc-bootstrap job"
+    kubectl delete job/idc-bootstrap 
+    echo "done."
+
+    echo "Issuing a restart of all deployments..."
     kubectl rollout restart deployment 
-    echo "DONE.
+    echo "DONE."
 
     echo "Waiting for things to settle..."
     sleep 30
@@ -230,7 +234,7 @@ data:
     kubectl apply -f /tmp/drupal.json
     echo "Done."
 
-    "
+    
     echo; 
     echo;
 
