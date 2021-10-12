@@ -198,6 +198,11 @@ spec:
                 secretKeyRef:
                   name: drupal-sealed
                   key: jwt_public_key
+            - name: DRUPAL_JWT_EXPIRY_INTERVAL 
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.jwt_expiry_interval
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:

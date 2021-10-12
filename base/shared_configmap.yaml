@@ -31,6 +31,7 @@ data:
 # these need to be generated, then migrated to sealed secrets
   drupal.jwt_private_key: '-----BEGIN RSA PRIVATE KEY-----'
   drupal.jwt_public_key: '-----BEGIN PUBLIC KEY-----'
+  drupal.jwt_expiry_interval: "+168 hour"
 
 # Old stuff, to be removed
   # drupal.default.install: "true"
