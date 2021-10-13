@@ -79,7 +79,7 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 5            
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:b14a17b
+          image: ghcr.io/jhu-idc/drupal-static:v0.2.0
           resources:
             requests:
               memory: 200Mi
@@ -214,6 +214,43 @@ spec:
                   name: drupal
                   key: root_password
 # End: Drupal Secrets
+# Begin: SMTP Settings
+            - name: DRUPAL_SMTP_ENABLE
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.smtp.enable
+            - name: DRUPAL_SMTP_AUTH_PRINCIPAL
+              valueFrom:
+                secretKeyRef:
+                  name: drupal-sealed
+                  key: smtp_auth_principal
+            - name: DRUPAL_SMTP_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: drupal-sealed
+                  key: smtp_auth_token
+            - name: DRUPAL_SMTP_FROM_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.smtp.from-address
+            - name: DRUPAL_SMTP_RELAY_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.smtp.relay-host
+            - name: DRUPAL_SMTP_VERBOSE
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.smtp.verbose
+            - name: DRUPAL_SMTP_TLS_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.smtp.tls-version
+# End: SMTP
 # Begin: SAML Config                  
             - name: DRUPAL_SP_SESSION_COOKIENAME
               valueFrom:
@@ -332,7 +369,7 @@ spec:
                 configMapKeyRef:
                   name: shared
                   key: drupal.default.s3_private_path
-# End: S3 config                  
+# End: S3 config  
 # Begin: Review and remove if not needed
             # - name: DEFAULT_SOLR_HOST
             #   valueFrom:
