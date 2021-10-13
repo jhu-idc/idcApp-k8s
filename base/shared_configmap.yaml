@@ -22,6 +22,13 @@ data:
   drupal.default.install_existing_config: "true"
   drupal.default.profile: standard
   drupal.default.site_url: http://islandora-idc.traefik.me
+
+# global smtp settings
+  drupal.smtp.enable: "true"
+  drupal.smtp.from-address: "digital-test@mail395.jh.edu"
+  drupal.smtp.relay-host: "email-smtp.us-east-1.amazonaws.com"
+  drupal.smtp.verbose: "true"
+  drupal.smtp.tls-version: "tls1_2"
   
 # should be migrated to sealed secrets
   drupal.default.account.password: password

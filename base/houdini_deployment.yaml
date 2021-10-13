@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: houdini
-          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/houdini:upstream-20200824-f8d1e8e-54-g93a2b68
+          image: ghcr.io/jhu-idc/houdini:v0.2.0
           resources:
             requests:
               memory: 100Mi
