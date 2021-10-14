@@ -17,6 +17,20 @@ spec:
       containers:
         - name: fits
           image: ghcr.io/jhu-idc/fits:v0.2.0
+          readinessProbe:
+            httpGet:
+              path: /fits/
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /fits/
+              port: 8080
+            initialDelaySeconds: 25
+            periodSeconds: 10
+            failureThreshold: 5
           resources:
             requests:
               memory: 250Mi
