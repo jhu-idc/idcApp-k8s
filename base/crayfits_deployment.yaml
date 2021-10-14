@@ -18,6 +18,20 @@ spec:
         - name: crayfits
           image: ghcr.io/jhu-idc/crayfits:v0.2.0
           imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 5
           resources:
             requests:
               memory: 100Mi
