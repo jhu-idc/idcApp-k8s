@@ -24,6 +24,20 @@ spec:
               cpu: 200m
             limits:
               memory: 1000Mi
+          # XXX: readiness probes do not work for activemq
+          # due to the way activemq doesn't open any ports
+          # until it can lock the db.
+          #    
+          # readinessProbe:
+          #   tcpSocket:
+          #     port: 8161
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 20
+          livenessProbe:
+            tcpSocket:
+              port: 61616
+            initialDelaySeconds: 15
+            periodSeconds: 20
           env:
             - name: ACTIVEMQ_USER
               value: client
