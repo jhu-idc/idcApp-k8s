@@ -18,6 +18,16 @@ spec:
         - name: homarus
           image: ghcr.io/jhu-idc/homarus:v0.2.0
           imagePullPolicy: Always
+          readinessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          livenessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
           resources:
             requests:
               memory: 100Mi
