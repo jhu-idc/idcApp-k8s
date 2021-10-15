@@ -1,0 +1,230 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: stage-resync
+spec:
+  template:
+    spec:
+      serviceAccountName: stage-resync
+      volumes:
+        - name: stage-resync
+          configMap:
+            name: stage-resync
+            defaultMode: 0755
+      #   - name: mariadb-files
+      #     persistentVolumeClaim:
+      #       claimName: mariadb-files
+      #   - name: solr-data
+      #     persistentVolumeClaim:
+      #       claimName: solr-data
+      #   - name: drupal-data
+      #     persistentVolumeClaim:
+      #       claimName: drupal-data
+      containers:
+      - name: aws-cli
+        image: amazon/aws-cli:2.2.38
+        command: ["/bin/bash"]
+        #args: [ "-c","sleep 10d"]
+        args: ["-c","/bin/resync.sh"]
+        volumeMounts:
+          - name: stage-resync
+            mountPath: /bin/resync.sh
+            subPath: resync.sh
+
+        #   - mountPath: /mnt/mariadb-dump
+        #     name: mariadb-files
+        #   - mountPath: /mnt/solr
+        #     name: solr-data
+        #   - mountPath: /mnt/drupal
+        #     name: drupal-data
+        #   - name: sandbox-reset
+        
+        env:
+          - name: DRUPAL_DEFAULT_DB_ROOT_USER
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.rootUser
+          - name: DRUPAL_DEFAULT_DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.name
+          - name: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: root_password
+          - name: DRUPAL_PROD_DB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: root_password
+          - name: DRUPAL_DEFAULT_DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.host
+          - name: DRUPAL_DEFAULT_DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: shared
+                key: db.port
+          - name: DRUPAL_DEFAULT_S3_BUCKET
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: s3BucketName
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: s3AccessKey
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: drupal
+                key: s3SecretKey
+      restartPolicy: Never
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: stage-resync
+--- 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: modify-pods
+rules:
+  - apiGroups:
+      - ""
+      - "batch"
+      - "apps"
+    resources:
+      - pods
+      - jobs
+      - deployments
+    verbs:
+      - create
+      - get
+      - list
+      - delete
+      - patch
+  - apiGroups:
+    - ""
+    resources:
+      - pods/exec
+    verbs:
+      - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: config-secret-access
+rules:
+- apiGroups: [""]
+  resources: 
+    - configmaps
+    - secrets
+  verbs:
+    - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: read-configmap-secrets-global
+subjects:
+  - kind: ServiceAccount
+    name: stage-resync
+    namespace: stage
+roleRef:
+  kind: ClusterRole
+  name: config-secret-access
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: modify-pods-to-sa
+subjects:
+  - kind: ServiceAccount
+    name: stage-resync
+roleRef:
+  kind: Role
+  name: modify-pods
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stage-resync
+data:
+  resync.sh: |
+    #!/bin/bash
+    #
+    # This script should resync the db from prod to stage.
+    # It assumes that the root password is the same for both 
+    # db instances.  If you have used the terraform for 
+    # the rds databases, this should be the case.
+
+    # This script is highly DESTRUCTIVE!!! It will do the following:
+    # 
+    # - wipe the database
+    # - import database from prod
+    # - empty the S3 bucket
+    # - restart the drupal deployment
+    # - re-index solr.
+
+    # install mysql/maria client
+    yum -y install mariadb jq > /dev/null
+
+    # Grab a copy of kubectl
+    curl -o /bin/kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl > /dev/null
+
+    # set perms
+    chmod +x /bin/kubectl
+
+    # get the db host from prod namespace
+    export DRUPAL_PROD_DB_HOST=`kubectl -n prod get configmap shared -o json | jq '.data."db.host"'| sed -e 's/"//g'`
+    export DRUPAL_PROD_DB_NAME=`kubectl -n prod get configmap shared -o json | jq '.data."db.name"'| sed -e 's/"//g'`
+    echo -n "Dropping DB ${DRUPAL_DEFAULT_DB_NAME}..."
+    echo "DROP database ${DRUPAL_DEFAULT_DB_NAME};" | mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} ${DRUPAL_DEFAULT_DB_NAME}
+    echo "DONE"
+
+    echo -n "Creating DB..."
+    echo "CREATE DATABASE ${DRUPAL_DEFAULT_DB_NAME};" | mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD}
+    echo "DONE"
+
+    echo -n "Importing DB ${DRUPAL_DEFAULT_DB_NAME}..."
+    mysqldump -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_PROD_DB_HOST} -p${DRUPAL_PROD_DB_ROOT_PASSWORD} ${DRUPAL_PROD_DB_NAME} > /tmp/prod_dump.sql
+    cat /tmp/prod_dump.sql |  mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} ${DRUPAL_DEFAULT_DB_NAME}
+    echo "DONE"
+
+    echo -n "Clearing S3 bucket..."
+    aws s3 rm --recursive s3://${DRUPAL_DEFAULT_S3_BUCKET}
+    echo "Done"
+
+    echo -n "Restarting Drupal Deployment..."
+    kubectl rollout restart deployment drupal
+    echo "Done."
+
+    sleep 10
+    
+    echo "Waiting for drupal to finish restarting..."
+    replicas=`kubectl get deployment drupal -o json | jq .status.replicas`
+    readyReplicas=`kubectl get deployment drupal -o json | jq .status.readyReplicas`
+    while [ "$readyReplicas" != "1" ] || [ "$replicas" != "1" ]
+    do
+      replicas=`kubectl get deployment drupal -o json | jq .status.replicas`
+      readyReplicas=`kubectl get deployment drupal -o json | jq .status.readyReplicas`
+      sleep 3
+    done
+    echo "Done."
+
+    echo "Rebuild solr..."
+    echo -e "\tClearing the index..."
+    kubectl exec -i deployment/drupal -- drush search-api-clear
+    echo -e "\tRunning new index..."
+    kubectl exec -i deployment/drupal -- drush search-api-index
+    echo "Done."
