@@ -24,8 +24,8 @@ spec:
       - name: aws-cli
         image: amazon/aws-cli:2.2.38
         command: ["/bin/bash"]
-        args: [ "-c","sleep 10d"]
-        #args: ["-c","/bin/resync.sh"]
+        #args: [ "-c","sleep 10d"]
+        args: ["-c","/bin/resync.sh"]
         volumeMounts:
           - name: stage-resync
             mountPath: /bin/resync.sh
@@ -111,6 +111,12 @@ rules:
       - list
       - delete
       - patch
+  - apiGroups:
+    - ""
+    resources:
+      - pods/exec
+    verbs:
+      - create
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -180,18 +186,19 @@ data:
     chmod +x /bin/kubectl
 
     # get the db host from prod namespace
-    export DRUPAL_PROD_DB_HOST=`kubectl -n prod get configmap shared -o json | jq '.data."db.host"'`
-    export DRUPAL_PROD_DB_NAME=`kubectl -n prod get configmap shared -o json | jq '.data."db.name"'`
+    export DRUPAL_PROD_DB_HOST=`kubectl -n prod get configmap shared -o json | jq '.data."db.host"'| sed -e 's/"//g'`
+    export DRUPAL_PROD_DB_NAME=`kubectl -n prod get configmap shared -o json | jq '.data."db.name"'| sed -e 's/"//g'`
     echo -n "Dropping DB ${DRUPAL_DEFAULT_DB_NAME}..."
     echo "DROP database ${DRUPAL_DEFAULT_DB_NAME};" | mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} ${DRUPAL_DEFAULT_DB_NAME}
     echo "DONE"
 
     echo -n "Creating DB..."
-    echo "CREATE DATABASE ${DRUPAL_DEFAULT_DB_NAME};" | mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} ${DRUPAL_DEFAULT_DB_NAME}
+    echo "CREATE DATABASE ${DRUPAL_DEFAULT_DB_NAME};" | mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD}
     echo "DONE"
 
     echo -n "Importing DB ${DRUPAL_DEFAULT_DB_NAME}..."
-    mysqldump -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_PROD_DB_HOST} -p${DRUPAL_PROD_DB_ROOT_PASSWORD} ${DRUPAL_PROD_DB_NAME} | mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} ${DRUPAL_DEFAULT_DB_NAME}
+    mysqldump -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_PROD_DB_HOST} -p${DRUPAL_PROD_DB_ROOT_PASSWORD} ${DRUPAL_PROD_DB_NAME} > /tmp/prod_dump.sql
+    cat /tmp/prod_dump.sql |  mysql -u${DRUPAL_DEFAULT_DB_ROOT_USER} -h${DRUPAL_DEFAULT_DB_HOST} -p${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} ${DRUPAL_DEFAULT_DB_NAME}
     echo "DONE"
 
     echo -n "Clearing S3 bucket..."
@@ -202,6 +209,22 @@ data:
     kubectl rollout restart deployment drupal
     echo "Done."
 
-    echo -n "Rebuild solr..."
-    # TODO: Command ot rebuild solr?
+    sleep 10
+    
+    echo "Waiting for drupal to finish restarting..."
+    replicas=`kubectl get deployment drupal -o json | jq .status.replicas`
+    readyReplicas=`kubectl get deployment drupal -o json | jq .status.readyReplicas`
+    while [ "$readyReplicas" != "1" ] || [ "$replicas" != "1" ]
+    do
+      replicas=`kubectl get deployment drupal -o json | jq .status.replicas`
+      readyReplicas=`kubectl get deployment drupal -o json | jq .status.readyReplicas`
+      sleep 3
+    done
+    echo "Done."
+
+    echo "Rebuild solr..."
+    echo -e "\tClearing the index..."
+    kubectl exec -i deployment/drupal -- drush search-api-clear
+    echo -e "\tRunning new index..."
+    kubectl exec -i deployment/drupal -- drush search-api-index
     echo "Done."
