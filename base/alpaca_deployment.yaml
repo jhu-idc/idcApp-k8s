@@ -23,6 +23,19 @@ spec:
             memory: 600Mi
           limits:
             memory: 800Mi
+        # Alpaca does not open any ports in our stack, probes are not possible.
+        # livenessProbe:
+        #     httpGet:
+        #       path: /health
+        #       port: 8080
+        #       scheme: HTTP
+        #     initialDelaySeconds: 30
+        # readinessProbe:     
+        #   httpGet:
+        #     path: /health
+        #     port: 8080
+        #     scheme: HTTP
+        #   initialDelaySeconds: 20
         env:
           - name: ALPACA_ACTIVEMQ_URL
             value: tcp://activemq-service:61616

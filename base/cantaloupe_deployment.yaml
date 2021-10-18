@@ -18,6 +18,20 @@ spec:
         - image: ghcr.io/jhu-idc/cantaloupe:v0.2.0
           name: cantaloupe
           imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              path: /cantaloupe/iiif/2/
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /cantaloupe/iiif/2/
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 5
           resources:
             requests:
               memory: 300Mi

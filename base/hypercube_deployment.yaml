@@ -17,6 +17,16 @@ spec:
       containers:
       - image: ghcr.io/jhu-idc/hypercube:v0.2.0
         name: hypercube
+        readinessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 20
+        livenessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20        
         resources:
           requests:
             memory: 100Mi

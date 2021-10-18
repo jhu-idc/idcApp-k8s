@@ -18,6 +18,20 @@ spec:
       - image: ghcr.io/jhu-idc/solr:v0.2.0
         name: solr
         imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /solr/
+            port: 8983
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 5
+        livenessProbe:
+          httpGet:
+            path: /solr/
+            port: 8983
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 5        
         resources:
             requests:
               memory: 800Mi
