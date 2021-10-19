@@ -53,19 +53,24 @@
 #       containers:
 #         - name: crayfits
 #           image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/crayfits:upstream-20200824-f8d1e8e-27-g6cd914d
-#---
-#apiVersion: apps/v1
-#kind: Deployment
-#metadata:
-#  name: drupal
-#  labels:
-#    app: drupal
-#spec:
-#  template:
-#    spec:
-#      containers:
-#        - name: drupal
-#          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:d70699a
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: drupal
+ labels:
+   app: drupal
+spec:
+ template:
+   spec:
+     containers:
+        - name: drupal
+          image: ghcr.io/jhu-sheridan-libraries/idc-isle-dc/drupal-static:v0.2.0-1-g321e9c6
+          resources:
+            requests:
+              memory: 4096Mi
+            limits:
+              memory: 4096Mi
 # ---
 # apiVersion: apps/v1
 # kind: Deployment
