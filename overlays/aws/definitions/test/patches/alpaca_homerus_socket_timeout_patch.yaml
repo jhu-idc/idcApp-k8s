@@ -9,4 +9,4 @@ spec:
         - name: alpaca
           env:
             - name: ALPACA_HOMERUS_HTTP_SOCKET_TIMEOUT_MS
-              value: "72000000"
+              value: "7200000"

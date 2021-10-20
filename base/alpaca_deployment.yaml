@@ -20,9 +20,9 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: 600Mi
+            memory: 1000Mi
           limits:
-            memory: 800Mi
+            memory: 2000Mi
         # Alpaca does not open any ports in our stack, probes are not possible.
         # livenessProbe:
         #     httpGet:
@@ -37,6 +37,8 @@ spec:
         #     scheme: HTTP
         #   initialDelaySeconds: 20
         env:
+          - name: ALPACA_HOMERUS_HTTP_SOCKET_TIMEOUT_MS
+            value: "7200000"
           - name: ALPACA_ACTIVEMQ_URL
             value: tcp://activemq-service:61616
           - name: ALPACA_ACTIVEMQ_PASSWORD

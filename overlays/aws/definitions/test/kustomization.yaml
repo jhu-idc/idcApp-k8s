@@ -26,14 +26,14 @@ patchesStrategicMerge:
   - patches/shared-shared-db.port-patch.yaml
   - patches/shared-shared-db.rootUser-patch.yaml
   - patches/minio-deployment-patch.yaml
-  - patches/homarus_php_max_execution_patch.yaml
-  - patches/fits_php_max_execution_patch.yaml
-  - patches/crayfits_php_max_execution_patch.yaml
-  - patches/hypercube_php_max_execution_patch.yaml
-  - patches/alpaca_homerus_socket_timeout_patch.yaml
-  #- patches/drupal_jwt_expiry_interval_patch.yaml
-  - patches/alpaca_resource_patch.yaml
-  - patches/cantaloupe_resource_patch.yaml
-  - patches/fits_resource_patch.yaml
-  - patches/solr_resource_patch.yaml
+  # - patches/homarus_php_max_execution_patch.yaml
+  # - patches/fits_php_max_execution_patch.yaml
+  # - patches/crayfits_php_max_execution_patch.yaml
+  # - patches/hypercube_php_max_execution_patch.yaml
+  # - patches/alpaca_homerus_socket_timeout_patch.yaml
+  # - patches/drupal_jwt_expiry_interval_patch.yaml
+  # - patches/alpaca_resource_patch.yaml
+  # - patches/cantaloupe_resource_patch.yaml
+  # - patches/fits_resource_patch.yaml
+  # - patches/solr_resource_patch.yaml
 namespace: test

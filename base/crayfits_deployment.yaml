@@ -18,6 +18,9 @@ spec:
         - name: crayfits
           image: ghcr.io/jhu-idc/crayfits:v0.2.0
           imagePullPolicy: Always
+          env:
+            - name: PHP_MAX_EXECUTION_TIME
+              value: "7200"
           readinessProbe:
             httpGet:
               path: /

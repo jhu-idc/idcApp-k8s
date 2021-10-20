@@ -29,10 +29,12 @@ spec:
           periodSeconds: 20        
         resources:
           requests:
-            memory: 100Mi
+            memory: 4096Mi
           limits:
-            memory: 200Mi  
+            memory: 8192Mi  
         env:
+          - name: PHP_MAX_EXECUTION_TIME
+            value: "7200"
           - name: HYPERCUBE_JWT_PUBLIC_KEY
             valueFrom:
               secretKeyRef:
