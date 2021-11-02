@@ -87,7 +87,8 @@ spec:
               memory: 400Mi
           imagePullPolicy: Always
           env:
-
+            - name: PHP_MAX_EXECUTION_TIME
+              value: "300"
             - name: DRUPAL_DB_ROOT_USER
               valueFrom:
                 configMapKeyRef:
