@@ -60,6 +60,9 @@ data:
 #  drupal.default.db.password: In secrets
 ### End Old Stuff to be removed
 
+# Drupal configuration
+  drupal.fpm_max_children: "10"
+
 
 # SAML Configuration options
   drupal.sp.assertionallowedclockskew: "180"
