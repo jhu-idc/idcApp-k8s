@@ -4,9 +4,7 @@ kind: Kustomization
 resources:
   - activemq-data
   - cantaloupe-data
-  - drupal-codebase
   - drupal-data
-  - etcd-data
   - mariadb-files
   - solr-data
 
