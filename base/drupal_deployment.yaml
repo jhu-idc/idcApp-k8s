@@ -214,6 +214,11 @@ spec:
                 secretKeyRef:
                   name: drupal
                   key: root_password
+            - name: PHP_FPM_MAX_CHILDREN
+              valueFrom:
+                configMapKeyRef:
+                  name: shared
+                  key: drupal.fpm_max_children
 # End: Drupal Secrets
 # Begin: SMTP Settings
             - name: DRUPAL_SMTP_ENABLE
