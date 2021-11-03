@@ -3,16 +3,20 @@ kind: Kustomization
 
 resources:
   - activemq_deployment.yaml
+  - activemq_data_pvc.yaml  
   - activemq_service.yaml
   - alpaca_deployment.yaml
   - alpaca_service.yaml
+  - cantaloupe_data_pvc.yaml
   - cantaloupe_deployment.yaml
   - cantaloupe_service.yaml
   - crayfits_deployment.yaml
   - crayfits_service.yaml
+  - drupal_data_pvc.yaml
   - fits_deployment.yaml
   - mariadb_service.yaml
   - mariadb_deployment.yaml
+  - mariadb_files_pvc.yaml
   - drupal_deployment.yaml
   - drupal_service.yaml
 #  - drupal_configmap.yaml
@@ -23,6 +27,7 @@ resources:
   - hypercube_deployment.yaml
   - hypercube_service.yaml
   - shared_configmap.yaml
+  - solr_data_pvc.yaml
   - solr_deployment.yaml
   - solr_service.yaml
   - minio_deployment.yaml

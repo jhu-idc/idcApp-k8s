@@ -11,6 +11,9 @@ resources:
   - volumes/
 
 patchesStrategicMerge:
+  - patches/activemq_data_pvc.yaml
+  - patches/cantaloupe_data_pvc.yaml
+  - patches/drupal_data_pvc.yaml
   - patches/drupal-s3-env-patch.yaml
   - patches/drupal-service-patch.yaml
   - patches/drupal.namespace-config-patch.yaml
@@ -18,6 +21,7 @@ patchesStrategicMerge:
   - patches/drupal_php_max_execution_patch.yaml
   - patches/image-updates-patch.yaml
   - patches/mariadb-deployment-replica-patch.yaml
+  - patches/mariadb_files_pvc.yaml
   - patches/reverseproxy-service-ssl-patch.yaml
   - patches/secret-drupal-root_password-patch.yaml
   - patches/secret-drupal-user_password-patch.yaml ## XXX REMOVE THIS FOR PRODUCTION OR CHANGE THE PASS!!
@@ -25,6 +29,7 @@ patchesStrategicMerge:
   - patches/shared-shared-db.name-patch.yaml
   - patches/shared-shared-db.port-patch.yaml
   - patches/shared-shared-db.rootUser-patch.yaml
+  - patches/solr_data_pvc.yaml
   - patches/minio-deployment-patch.yaml
   # - patches/homarus_php_max_execution_patch.yaml
   # - patches/fits_php_max_execution_patch.yaml
