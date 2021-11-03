@@ -19,7 +19,7 @@ resources:
   - mariadb_files_pvc.yaml
   - drupal_deployment.yaml
   - drupal_service.yaml
-#  - drupal_configmap.yaml
+#  - drupal_configmap.
   - homarus_deployment.yaml
   - homarus_service.yaml
   - houdini_deployment.yaml
@@ -27,6 +27,7 @@ resources:
   - hypercube_deployment.yaml
   - hypercube_service.yaml
   - shared_configmap.yaml
+  - solr_data_pvc.yaml
   - solr_deployment.yaml
   - solr_service.yaml
   - minio_deployment.yaml
