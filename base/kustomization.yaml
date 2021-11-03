@@ -19,7 +19,7 @@ resources:
   - mariadb_files_pvc.yaml
   - drupal_deployment.yaml
   - drupal_service.yaml
-#  - drupal_configmap.
+#  - drupal_configmap.yaml
   - homarus_deployment.yaml
   - homarus_service.yaml
   - houdini_deployment.yaml
