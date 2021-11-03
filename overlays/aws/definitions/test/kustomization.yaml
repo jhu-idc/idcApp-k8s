@@ -21,6 +21,7 @@ patchesStrategicMerge:
   - patches/drupal_php_max_execution_patch.yaml
   - patches/image-updates-patch.yaml
   - patches/mariadb-deployment-replica-patch.yaml
+  - patches/mariadb_files_pvc.yaml
   - patches/reverseproxy-service-ssl-patch.yaml
   - patches/secret-drupal-root_password-patch.yaml
   - patches/secret-drupal-user_password-patch.yaml ## XXX REMOVE THIS FOR PRODUCTION OR CHANGE THE PASS!!

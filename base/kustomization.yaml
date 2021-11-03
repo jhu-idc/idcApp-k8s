@@ -16,6 +16,7 @@ resources:
   - fits_deployment.yaml
   - mariadb_service.yaml
   - mariadb_deployment.yaml
+  - mariadb_files_pvc.yaml
   - drupal_deployment.yaml
   - drupal_service.yaml
 #  - drupal_configmap.yaml
