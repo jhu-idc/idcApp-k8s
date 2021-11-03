@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - activemq_deployment.yaml
+  - activemq_pvc.yaml  
   - activemq_service.yaml
   - alpaca_deployment.yaml
   - alpaca_service.yaml
