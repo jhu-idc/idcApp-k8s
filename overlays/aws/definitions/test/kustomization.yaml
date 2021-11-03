@@ -12,6 +12,8 @@ resources:
 
 patchesStrategicMerge:
   - patches/activemq_data_pvc.yaml
+  - patches/cantaloupe_data_pvc.yaml
+  - patches/drupal_data_pvc.yaml
   - patches/drupal-s3-env-patch.yaml
   - patches/drupal-service-patch.yaml
   - patches/drupal.namespace-config-patch.yaml

@@ -3,14 +3,16 @@ kind: Kustomization
 
 resources:
   - activemq_deployment.yaml
-  - activemq_pvc.yaml  
+  - activemq_data_pvc.yaml  
   - activemq_service.yaml
   - alpaca_deployment.yaml
   - alpaca_service.yaml
+  - cantaloupe_data_pvc.yaml
   - cantaloupe_deployment.yaml
   - cantaloupe_service.yaml
   - crayfits_deployment.yaml
   - crayfits_service.yaml
+  - drupal_data_pvc.yaml
   - fits_deployment.yaml
   - mariadb_service.yaml
   - mariadb_deployment.yaml
