@@ -79,7 +79,7 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 5            
-          image: ghcr.io/jhu-idc/drupal-static:v0.2.0
+          image: ghcr.io/jhu-idc/drupal-static:v0.3.0
           resources:
             requests:
               memory: 200Mi
@@ -88,6 +88,26 @@ spec:
           imagePullPolicy: Always
           env:
             - name: PHP_MAX_EXECUTION_TIME
+              value: "300"
+            - name: NGINX_FASTCGI_READ_TIMEOUT
+              value: "300" 
+            - name: NGINX_FASTCGI_SEND_TIMEOUT
+              value: "300" 
+            - name: NGINX_FASTCGI_CONNECT_TIMEOUT
+              value: "300" 
+            - name: NGINX_PROXY_READ_TIMEOUT
+              value: "300" 
+            - name: NGINX_PROXY_SEND_TIMEOUT
+              value: "300" 
+            - name: NGINX_PROXY_CONNECT_TIMEOUT
+              value: "300" 
+            - name: NGINX_SEND_TIMEOUT
+              value: "300" 
+            - name: NGINX_KEEPALIVE_TIMEOUT
+              value: "300" 
+            - name: NGINX_CLIENT_BODY_TIMEOUT
+              value: "300" 
+            - name: NGINX_LINGERING_TIMEOUT
               value: "300"
             - name: DRUPAL_DB_ROOT_USER
               valueFrom:
