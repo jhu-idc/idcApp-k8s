@@ -15,7 +15,7 @@ spec:
         app: alpaca
     spec:
       containers:
-      - image: ghcr.io/jhu-idc/alpaca:v0.2.0
+      - image: ghcr.io/jhu-idc/alpaca:v0.3.0
         name: alpaca
         imagePullPolicy: Always
         resources:
@@ -38,7 +38,7 @@ spec:
         #   initialDelaySeconds: 20
         env:
           - name: ALPACA_HOMERUS_HTTP_SOCKET_TIMEOUT_MS
-            value: "7200000"
+            value: "7200"
           - name: ALPACA_ACTIVEMQ_URL
             value: tcp://activemq-service:61616
           - name: ALPACA_ACTIVEMQ_PASSWORD

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: houdini
-          image: ghcr.io/jhu-idc/houdini:v0.2.0
+          image: ghcr.io/jhu-idc/houdini:v0.3.0
           readinessProbe:
             tcpSocket:
               port: 8000
@@ -35,6 +35,26 @@ spec:
           env:
             - name: PHP_MAX_EXECUTION_TIME
               value: "7200"
+            - name: NGINX_FASTCGI_READ_TIMEOUT
+              value: "7200" 
+            - name: NGINX_FASTCGI_SEND_TIMEOUT
+              value: "7200" 
+            - name: NGINX_FASTCGI_CONNECT_TIMEOUT
+              value: "7200" 
+            - name: NGINX_PROXY_READ_TIMEOUT
+              value: "7200" 
+            - name: NGINX_PROXY_SEND_TIMEOUT
+              value: "7200" 
+            - name: NGINX_PROXY_CONNECT_TIMEOUT
+              value: "7200" 
+            - name: NGINX_SEND_TIMEOUT
+              value: "3600" 
+            - name: NGINX_KEEPALIVE_TIMEOUT
+              value: "7200" 
+            - name: NGINX_CLIENT_BODY_TIMEOUT
+              value: "7200" 
+            - name: NGINX_LINGERING_TIMEOUT
+              value: "7200"              
             - name: HOUDINI_JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:

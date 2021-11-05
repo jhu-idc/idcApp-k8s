@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: homarus
-          image: ghcr.io/jhu-idc/homarus:v0.2.0
+          image: ghcr.io/jhu-idc/homarus:v0.3.0
           imagePullPolicy: Always
           
           readinessProbe:
@@ -43,4 +43,24 @@ spec:
             - name: HOMARUS_JWT_ADMIN_TOKEN
               value: islandora
             - name: PHP_MAX_EXECUTION_TIME
+              value: "7200"
+            - name: NGINX_FASTCGI_READ_TIMEOUT
+              value: "7200" 
+            - name: NGINX_FASTCGI_SEND_TIMEOUT
+              value: "7200" 
+            - name: NGINX_FASTCGI_CONNECT_TIMEOUT
+              value: "7200" 
+            - name: NGINX_PROXY_READ_TIMEOUT
+              value: "7200" 
+            - name: NGINX_PROXY_SEND_TIMEOUT
+              value: "7200" 
+            - name: NGINX_PROXY_CONNECT_TIMEOUT
+              value: "7200" 
+            - name: NGINX_SEND_TIMEOUT
+              value: "3600" 
+            - name: NGINX_KEEPALIVE_TIMEOUT
+              value: "7200" 
+            - name: NGINX_CLIENT_BODY_TIMEOUT
+              value: "7200" 
+            - name: NGINX_LINGERING_TIMEOUT
               value: "7200"
