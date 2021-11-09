@@ -591,8 +591,8 @@ data:
       AllowEncodedSlashes On
       ProxyPreserveHost on
       RequestHeader set X-Forwarded-Proto "https"
-      ProxyPass "/cantaloupe/" "http://cantaloupe-service:8080/cantaloupe/" nocanon connectiontimeout=300 timeout=400
-      ProxyPass "/" "http://drupal-service/" connectiontimeout=300 timeout=400
+      ProxyPass "/cantaloupe/" "http://cantaloupe-service:8080/cantaloupe/" nocanon connectiontimeout=450 timeout=550
+      ProxyPass "/" "http://drupal-service/" connectiontimeout=450 timeout=550
 
 
     </VirtualHost>
