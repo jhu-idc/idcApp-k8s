@@ -88,9 +88,9 @@ spec:
           imagePullPolicy: Always
           env:
             - name: PHP_MAX_EXECUTION_TIME
-              value: "300"
+              value: "450"
             - name: NGINX_FASTCGI_READ_TIMEOUT
-              value: "300" 
+              value: "450" 
             - name: NGINX_FASTCGI_SEND_TIMEOUT
               value: "300" 
             - name: NGINX_FASTCGI_CONNECT_TIMEOUT
