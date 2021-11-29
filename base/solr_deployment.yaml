@@ -15,7 +15,7 @@ spec:
         app: solr
     spec:
       containers:
-      - image: ghcr.io/jhu-idc/solr:v0.3.0
+      - image: ghcr.io/jhu-idc/solr:v0.5.0
         name: solr
         imagePullPolicy: Always
         readinessProbe:

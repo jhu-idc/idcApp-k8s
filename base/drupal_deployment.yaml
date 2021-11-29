@@ -79,7 +79,7 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 5            
-          image: ghcr.io/jhu-idc/drupal-static:v0.3.0
+          image: ghcr.io/jhu-idc/drupal-static:v0.5.0
           resources:
             requests:
               memory: 200Mi

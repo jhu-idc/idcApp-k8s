@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: homarus
-          image: ghcr.io/jhu-idc/homarus:v0.3.0
+          image: ghcr.io/jhu-idc/homarus:v0.5.0
           imagePullPolicy: Always
           
           readinessProbe:

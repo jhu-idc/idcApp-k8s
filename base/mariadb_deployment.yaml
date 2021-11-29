@@ -15,7 +15,7 @@ spec:
         app: mariadb
     spec:
       containers:
-        - image: ghcr.io/jhu-idc/mariadb:v0.3.0
+        - image: ghcr.io/jhu-idc/mariadb:v0.5.0
           name: mariadb
           imagePullPolicy: Always
           volumeMounts:

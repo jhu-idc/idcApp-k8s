@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: crayfits
-          image: ghcr.io/jhu-idc/crayfits:v0.3.0
+          image: ghcr.io/jhu-idc/crayfits:v0.5.0
           imagePullPolicy: Always
           env:
             - name: PHP_MAX_EXECUTION_TIME
