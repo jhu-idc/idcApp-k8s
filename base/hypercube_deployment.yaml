@@ -29,7 +29,7 @@ spec:
           periodSeconds: 20        
         resources:
           requests:
-            memory: 4096Mi
+            memory: 7168Mi
           limits:
             memory: 8192Mi  
         env:
