@@ -6,6 +6,8 @@ metadata:
   name: solr
 spec:
   replicas: 1
+  strategy: 
+    type: Recreate
   selector:
     matchLabels:
       app: solr
@@ -15,7 +17,7 @@ spec:
         app: solr
     spec:
       containers:
-      - image: ghcr.io/jhu-idc/solr:v0.5.0
+      - image: ghcr.io/jhu-idc/solr:v0.6.0
         name: solr
         imagePullPolicy: Always
         readinessProbe:
