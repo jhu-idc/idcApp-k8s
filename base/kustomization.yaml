@@ -12,6 +12,7 @@ resources:
   - cantaloupe_service.yaml
   - crayfits_deployment.yaml
   - crayfits_service.yaml
+  - dlq_deployment.yaml
   - drupal_data_pvc.yaml
   - fits_deployment.yaml
   - mariadb_service.yaml

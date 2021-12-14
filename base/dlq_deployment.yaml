@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+# This is a Dead Letter Queue watcher for activeMQ
+metadata:
+  name: dlq
+  labels:
+    app: dlq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dlq
+  template:
+    metadata:
+      labels:
+        app: dlq
+    spec:
+      containers:
+        - image: ghcr.io/jhu-idc/dlq:v0.6.0
+          name: dlq
+          imagePullPolicy: Always
+          #command: [ "/bin/sh", "-c", "sleep 999999" ]
+          #command: ["./"]
+          args: [ "-queue",  "$(ACTIVEMQ_DLQ_NAME)",
+                  "-host",  "activemq-service",
+                  "-pass", "$(ACTIVEMQ_PASS)",
+                  "-config", "$(DLQ_HANDLER_CONFIG_LOCATION)",
+                  "-user", "client" ]
+          resources:
+            requests:
+              memory: 100Mi
+            limits:
+              memory: 200Mi
+          env:
+            - name: ACTIVEMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: activemq
+                  key: clientPassword
+            - name: ACTIVEMQ_DLQ_NAME
+              value: "ActiveMQ.DLQ"
+            - name: DLQ_HANDLER_CONFIG_LOCATION
+              value: "./config.json"
+            - name: DLQ_CONNECT_TIMEOUT_SEC
+              value: "12"
