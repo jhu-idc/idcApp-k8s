@@ -29,9 +29,9 @@ spec:
             periodSeconds: 20
           resources:
             requests:
-              memory: 100Mi
+              memory: 2000Mi
             limits:
-              memory: 200Mi
+              memory: 2000Mi
           env:
             - name: PHP_MAX_EXECUTION_TIME
               value: "7200"
