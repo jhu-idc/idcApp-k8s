@@ -15,7 +15,7 @@ spec:
         app: cantaloupe
     spec:
       containers:
-        - image: ghcr.io/jhu-idc/cantaloupe:v0.6.0
+        - image: ghcr.io/jhu-idc/cantaloupe:v0.6.2
           name: cantaloupe
           imagePullPolicy: Always
           readinessProbe:
