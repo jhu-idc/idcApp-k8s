@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: houdini
-          image: ghcr.io/jhu-idc/houdini:v0.6.2
+          image: ghcr.io/jhu-idc/houdini:v0.6.3
           readinessProbe:
             tcpSocket:
               port: 8000

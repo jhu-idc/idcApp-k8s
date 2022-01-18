@@ -79,7 +79,7 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 5            
-          image: ghcr.io/jhu-idc/drupal-static:v0.6.2
+          image: ghcr.io/jhu-idc/drupal-static:v0.6.3
           resources:
             requests:
               memory: 200Mi
@@ -87,6 +87,8 @@ spec:
               memory: 400Mi
           imagePullPolicy: Always
           env:
+            - name: TRUSTED_HOST_LIST
+              value: '.+\.traefik\.me$$,.+\.library\.jhu\.edu$$,172\.16\..*'
             - name: PHP_MAX_EXECUTION_TIME
               value: "450"
             - name: NGINX_FASTCGI_READ_TIMEOUT

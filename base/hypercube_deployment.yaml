@@ -15,7 +15,7 @@ spec:
         app: hypercube
     spec:
       containers:
-      - image: ghcr.io/jhu-idc/hypercube:v0.6.2
+      - image: ghcr.io/jhu-idc/hypercube:v0.6.3
         name: hypercube
         readinessProbe:
           tcpSocket:
