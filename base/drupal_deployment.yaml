@@ -82,9 +82,9 @@ spec:
           image: ghcr.io/jhu-idc/drupal-static:v0.6.3
           resources:
             requests:
-              memory: 200Mi
+              memory: 2000Mi
             limits:
-              memory: 400Mi
+              memory: 2000Mi
           imagePullPolicy: Always
           env:
             - name: TRUSTED_HOST_LIST
