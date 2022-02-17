@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: fits
-          image: ghcr.io/jhu-idc/fits:v0.6.3
+          image: ghcr.io/jhu-idc/fits:v0.7.0
           env:
             - name: PHP_MAX_EXECUTION_TIME
               value: "7200"

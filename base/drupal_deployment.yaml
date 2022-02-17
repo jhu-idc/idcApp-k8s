@@ -79,7 +79,7 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 5            
-          image: ghcr.io/jhu-idc/drupal-static:v0.6.3
+          image: ghcr.io/jhu-idc/drupal-static:v0.7.0
           resources:
             requests:
               memory: 2000Mi
@@ -151,9 +151,9 @@ spec:
                   key: drupal.default.account.email
             - name: DRUPAL_DEFAULT_ACCOUNT_NAME
               valueFrom:
-                configMapKeyRef:
-                  name: shared
-                  key: drupal.default.account.name
+                secretKeyRef:
+                  name: drupal-sealed
+                  key: def_acct_admin
             - name: DRUPAL_DEFAULT_CANTALOUPE_URL
               valueFrom:
                 configMapKeyRef:
