@@ -5,3 +5,4 @@ metadata:
 data:
   drupal.default.site_url: "https://digital.library.jhu.edu"
   drupal.default.cantaloupe.url: https://digital.library.jhu.edu/cantaloupe/iiif/2
+  drupal.smtp.from-address: "digital-library@mail395.jh.edu"
