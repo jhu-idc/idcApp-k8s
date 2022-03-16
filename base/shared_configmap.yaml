@@ -11,7 +11,7 @@ data:
   db.name: drupal_default
 
 # default site config
-  drupal.default.account.email: admin@example.org
+  drupal.default.email: admin@example.org
   drupal.default.account.name: admin
   drupal.default.cantaloupe.url: https://islandora-idc.traefik.me/cantaloupe/iiif/2
   drupal.default.configdir: /var/www/drupal/config/sync
