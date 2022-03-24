@@ -16,7 +16,7 @@ spec:
         app: dlq
     spec:
       containers:
-        - image: ghcr.io/jhu-idc/dlq:v0.7.2
+        - image: ghcr.io/jhu-idc/dlq:v0.7.3
           name: dlq
           imagePullPolicy: Always
           #command: [ "/bin/sh", "-c", "sleep 999999" ]
