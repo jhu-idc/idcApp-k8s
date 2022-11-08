@@ -78,8 +78,8 @@ spec:
               port: 80
             initialDelaySeconds: 60
             periodSeconds: 10
-            failureThreshold: 5            
-          image: ghcr.io/jhu-idc/drupal-static:v0.7.8
+            failureThreshold: 50000
+          image: ghcr.io/jhu-idc/drupal-static:v0.7.20
           resources:
             requests:
               memory: 2000Mi

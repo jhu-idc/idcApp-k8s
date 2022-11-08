@@ -15,7 +15,7 @@ spec:
         app: activemq
     spec:
       containers:
-        - image: ghcr.io/jhu-idc/activemq:v0.7.8
+        - image: ghcr.io/jhu-idc/activemq:v0.7.20
           name: activemq
           imagePullPolicy: Always
           resources:
