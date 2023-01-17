@@ -69,17 +69,21 @@ spec:
             httpGet:
               path: /
               port: 80
-            initialDelaySeconds: 60
-            periodSeconds: 10
+            initialDelaySeconds: 210
+            periodSeconds: 15
             failureThreshold: 5
+            timeoutSeconds: 10
+            successThreshold: 1
           livenessProbe:
             httpGet:
               path: /
               port: 80
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            failureThreshold: 50000
-          image: ghcr.io/jhu-idc/drupal-static:v0.7.20
+            initialDelaySeconds: 300
+            periodSeconds: 15
+            failureThreshold: 5
+            timeoutSeconds: 10
+            successThreshold: 1
+          image: ghcr.io/jhu-idc/drupal-static:v0.7.34
           resources:
             requests:
               memory: 2000Mi
